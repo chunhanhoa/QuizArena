@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết Quả Trận Đấu - Quiz Arena</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        .results-container {
+            max-width: 800px;
+            margin: 4rem auto;
+            text-align: center;
+        }
+
+        .podium {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 2rem;
+            margin: 4rem 0;
+            height: 300px;
+        }
+
+        .podium-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 150px;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .podium-bar {
+            width: 100%;
+            background: var(--glass);
+            border: 2px solid var(--glass-border);
+            border-bottom: none;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            padding-top: 1rem;
+            font-size: 2rem;
+            font-weight: 900;
+        }
+
+        .first { height: 200px; order: 2; z-index: 3; }
+        .second { height: 150px; order: 1; }
+        .third { height: 120px; order: 3; }
+
+        .first .podium-bar { background: linear-gradient(to bottom, #ffd700, #b8860b); border-color: #ffd700; color: white; }
+        .second .podium-bar { background: linear-gradient(to bottom, #c0c0c0, #808080); border-color: #c0c0c0; color: white; }
+        .third .podium-bar { background: linear-gradient(to bottom, #cd7f32, #8b4513); border-color: #cd7f32; color: white; }
+
+        .player-name { margin-top: 1rem; font-weight: 800; font-size: 1.2rem; }
+        .player-score { font-weight: 600; opacity: 0.7; }
+
+        .other-players {
+            background: var(--glass);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .player-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 4rem;
+        }
+
+        @keyframes crownPop {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body style="background: #122b30; color: white;">
+    <div class="results-container">
+        <h1 style="font-size: 3rem; font-weight: 900;">🏆 Kết Quả Chung Cuộc</h1>
+        
+        <div id="podium" class="podium">
+            <!-- Podium items will be injected here -->
+        </div>
+
+        <div id="otherList" class="other-players">
+            <!-- Other players here -->
+        </div>
+
+        <div class="btn-group">
+            <button class="btn-primary" style="padding: 1.25rem 3rem; border-radius: 40px;" onclick="playAgain()">Chơi lại</button>
+            <button class="btn-secondary" style="background: rgba(255,255,255,0.1); padding: 1.25rem 3rem; border-radius: 40px;" onclick="window.location.href='index.html'">Trang chủ</button>
+        </div>
+    </div>
+
+    <script src="js/results.js"></script>
+</body>
+</html>
