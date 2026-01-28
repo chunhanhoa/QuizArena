@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class AuthController {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
     @Operation(summary = "Register a new user")
@@ -35,6 +37,9 @@ public class AuthController {
             user.setSocial(new User.Social(new ArrayList<>(), new ArrayList<>()));
         }
 
+        // Hash the password
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         return ResponseEntity.ok(userRepository.save(user));
     }
 
@@ -43,7 +48,7 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody User loginRequest) {
         Optional<User> userOpt = userRepository.findByUsername(loginRequest.getUsername());
 
-        if (userOpt.isPresent() && userOpt.get().getPassword().equals(loginRequest.getPassword())) {
+        if (userOpt.isPresent() && passwordEncoder.matches(loginRequest.getPassword(), userOpt.get().getPassword())) {
             return ResponseEntity.ok(userOpt.get());
         }
 
