@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tham Gia Cùng Quiz Arena</title>
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="/css/index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&display=swap" rel="stylesheet">
@@ -105,7 +105,7 @@
     </div>
 
     <div class="auth-card animate-fade-in">
-        <div class="logo" onclick="window.location.href='index.html'">QUIZ<span style="color: var(--primary);">ARENA</span></div>
+        <div class="logo" onclick="window.location.href='/'">QUIZ<span style="color: var(--primary);">ARENA</span></div>
         <h2 id="authTitle" style="font-weight: 800; margin-bottom: 2rem;">Đăng Nhập</h2>
 
         <div class="input-group">
@@ -166,7 +166,7 @@
                     localStorage.setItem('user', JSON.stringify(user));
                     localStorage.setItem('userId', user.id);
                     localStorage.setItem('username', user.username);
-                    window.location.href = 'index.html';
+                    window.location.href = '/';
                 } else {
                     const text = await res.text();
                     errorMsg.innerText = text;

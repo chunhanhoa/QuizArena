@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Quiz Arena - Đấu Trường Trí Tuệ</title>
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="/css/index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&display=swap" rel="stylesheet">
@@ -122,7 +122,7 @@
                 <input type="text" id="pinInput" placeholder="Tìm kiếm quiz hoặc nhập PIN..." oninput="handleSearch(this.value)">
                 <button onclick="joinRoom()" style="background: var(--primary-gradient); padding: 0.6rem 1.5rem; border-radius: 20px; font-weight: 700; color: white; border: none; cursor: pointer;">Chơi ngay</button>
             </div>
-            <button id="loginBtn" class="btn-view-more" onclick="window.location.href='login.html'" style="background: var(--primary-gradient); color: white; border: none; padding: 0.7rem 1.5rem; border-radius: 12px; font-weight: 700; opacity: 0.9; transition: var(--transition);">Đăng nhập</button>
+            <button id="loginBtn" class="btn-view-more" onclick="window.location.href='/login'" style="background: var(--primary-gradient); color: white; border: none; padding: 0.7rem 1.5rem; border-radius: 12px; font-weight: 700; opacity: 0.9; transition: var(--transition);">Đăng nhập</button>
             <div id="userProfile" style="display: none; align-items: center; gap: 1rem;">
                 <img id="userAvatar" src="" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary);">
                 <div style="text-align: left;">
@@ -164,7 +164,7 @@
                 <div style="z-index: 2;">
                     <h2 style="font-size: 2.8rem; font-weight: 900; margin-bottom: 0.5rem; letter-spacing: -1px;">Tạo Quiz Mới</h2>
                     <p style="opacity: 0.9; margin-bottom: 2rem; font-size: 1.1rem; font-weight: 500;">Xây dựng bộ câu hỏi chuyên nghiệp của riêng bạn.</p>
-                    <button class="btn-practice glass-morphism" onclick="checkAuthAndGo('create.html')" style="background: rgba(255,255,255,0.2); border: 2px solid white; color: white; width: auto; padding: 1rem 2.5rem; font-size: 1.1rem; border-radius: 15px;">Truy cập ngay</button>
+                    <button class="btn-practice glass-morphism" onclick="checkAuthAndGo('/create')" style="background: rgba(255,255,255,0.2); border: 2px solid white; color: white; width: auto; padding: 1rem 2.5rem; font-size: 1.1rem; border-radius: 15px;">Truy cập ngay</button>
                 </div>
                 <div style="width: 250px; height: 250px; background: rgba(255,255,255,0.15); border-radius: 50%; position: absolute; right: -80px; top: -80px; backdrop-filter: blur(10px);"></div>
             </div>
@@ -172,7 +172,7 @@
                 <div style="z-index: 2;">
                     <h2 style="font-size: 2.8rem; font-weight: 900; margin-bottom: 0.5rem; letter-spacing: -1px; color: #a855f7;">Nhập vai RPG</h2>
                     <p style="opacity: 0.8; margin-bottom: 2rem; font-size: 1.1rem; font-weight: 500;">Chế độ nhập vai (RPG) với cốt truyện rẽ nhánh.</p>
-                    <button class="btn-practice" onclick="window.location.href='story.html'" style="background: linear-gradient(to right, #6366f1, #a855f7); color: white; border: none; width: auto; padding: 1rem 2.5rem; font-size: 1.1rem; border-radius: 15px; box-shadow: 0 10px 20px -5px rgba(139, 92, 246, 0.4);">CHƠI STORY MODE</button>
+                    <button class="btn-practice" onclick="window.location.href='/story'" style="background: linear-gradient(to right, #6366f1, #a855f7); color: white; border: none; width: auto; padding: 1rem 2.5rem; font-size: 1.1rem; border-radius: 15px; box-shadow: 0 10px 20px -5px rgba(139, 92, 246, 0.4);">CHƠI STORY MODE</button>
                 </div>
                 <div style="width: 200px; height: 200px; background: rgba(168, 85, 247, 0.1); border-radius: 20px; position: absolute; right: -40px; bottom: -40px; transform: rotate(15deg); border: 1px solid rgba(255,255,255,0.1);"></div>
             </div>
@@ -243,7 +243,7 @@
                     <p style='color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem;'>
                         ${searchQuery ? `Không tìm thấy kết quả cho "${searchQuery}"` : (filter === 'All' ? 'Chưa có bộ câu hỏi nào được xuất bản.' : 'Không tìm thấy bộ câu hỏi nào trong danh mục này.')}
                     </p>
-                    <button class='btn-practice' onclick='checkAuthAndGo("create.html")' style='background: var(--primary-gradient); color: white; border: none; padding: 1rem 2rem; border-radius: 12px; font-weight: 700; cursor: pointer; display: inline-block;'>
+                    <button class='btn-practice' onclick='checkAuthAndGo("/create")' style='background: var(--primary-gradient); color: white; border: none; padding: 1rem 2rem; border-radius: 12px; font-weight: 700; cursor: pointer; display: inline-block;'>
                         Trở thành người đầu tiên tạo Quiz
                     </button>
                 </div>`;
@@ -310,7 +310,7 @@
 
         function checkAuthAndGo(url) {
             if (!localStorage.getItem('userId')) {
-                window.location.href = 'login.html';
+                window.location.href = '/login';
             } else {
                 window.location.href = url;
             }
@@ -354,7 +354,7 @@
             // Find selected quiz data to pass to game.html
             const quiz = currentQuizzes.find(q => q.id === selectedQuizId);
             localStorage.setItem('currentQuiz', JSON.stringify(quiz));
-            window.location.href = 'game.html';
+            window.location.href = '/game';
         }
 
         function startChallenge() {

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sáng tạo Quiz - Quiz Arena</title>
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="/css/index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -37,8 +37,8 @@
 <body>
     <div class="admin-layout">
         <div style="text-align: left; margin-bottom: 3rem; display: flex; justify-content: space-between; align-items: center;">
-            <div class="logo" onclick="window.location.href='index.html'" style="cursor:pointer; font-size: 1.8rem;">QUIZ<span style="color: var(--primary);">ARENA</span></div>
-            <a href="index.html" style="color: var(--text-muted); font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;"><span>←</span> Quay lại trang chủ</a>
+            <div class="logo" onclick="window.location.href='/'" style="cursor:pointer; font-size: 1.8rem;">QUIZ<span style="color: var(--primary);">ARENA</span></div>
+            <a href="/" style="color: var(--text-muted); font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;"><span>←</span> Quay lại trang chủ</a>
         </div>
 
         <div class="admin-card animate-fade-in">
@@ -99,7 +99,7 @@
 
     <script>
         const userStr = localStorage.getItem('user');
-        if (!userStr) { window.location.href = 'login.html'; }
+        if (!userStr) { window.location.href = '/login'; }
         const currentUser = JSON.parse(userStr);
 
         let qCount = 0;
@@ -281,7 +281,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(quiz)
                 });
-                if (res.ok) { alert("Chúc mừng! Bộ câu hỏi của bạn đã được xuất bản thành công."); window.location.href = 'index.html'; }
+                if (res.ok) { alert("Chúc mừng! Bộ câu hỏi của bạn đã được xuất bản thành công."); window.location.href = '/'; }
                 else { alert("Lỗi khi lưu!"); }
             } catch (e) { alert("Lỗi: " + e.message); }
         }
