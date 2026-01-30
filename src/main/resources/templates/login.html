@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tham Gia Cùng Quiz Arena</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: var(--bg-darker);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated Mesh Gradient Background */
+        .mesh-bg {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background-color: var(--bg-darker);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.1) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(245, 158, 11, 0.1) 0px, transparent 50%);
+            filter: blur(80px);
+            animation: meshMove 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes meshMove {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.2) rotate(5deg); }
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 440px;
+            padding: 3.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            color: white;
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            letter-spacing: -2px;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 1.2rem;
+            border-radius: 14px;
+            color: white;
+            outline: none;
+            transition: var(--transition-bounce);
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .input-wrapper input:focus {
+            border-color: var(--primary-light);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .auth-btn {
+            width: 100%;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 1.1rem;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: var(--transition-bounce);
+            margin-top: 1rem;
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 30px -10px rgba(99, 102, 241, 0.6);
+        }
+
+        .toggle-text {
+            margin-top: 2rem;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .toggle-link {
+            color: var(--primary-light);
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .toggle-link:hover {
+            color: white;
+            text-shadow: 0 0 10px var(--primary-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="mesh-bg"></div>
+
+    <div class="auth-card animate-fade-in-up">
+        <div class="logo" onclick="window.location.href='/'">QUIZ<span style="color: var(--primary);">ARENA</span></div>
+        <h2 id="authTitle" style="font-size: 2.2rem; font-weight: 900; margin-bottom: 2.5rem; letter-spacing: -1px; color: white !important; text-shadow: 0 10px 20px rgba(0,0,0,0.3);">Chào mừng trở lại!</h2>
+
+        <div class="input-group">
+            <label>Tên đăng nhập</label>
+            <div class="input-wrapper">
+                <input type="text" id="username" placeholder="Nhập tên người dùng">
+            </div>
+        </div>
+        
+        <div class="input-group" id="emailGroup" style="display: none;">
+            <label>Email</label>
+            <div class="input-wrapper">
+                <input type="email" id="email" placeholder="Nhập email của bạn">
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>Mật khẩu</label>
+            <div class="input-wrapper">
+                <input type="password" id="password" placeholder="••••••••">
+            </div>
+        </div>
+
+        <button class="auth-btn" onclick="handleAuth()" id="authBtn">Vào Đấu Trường 🚀</button>
+        
+        <div class="toggle-text">
+            <span id="toggleQuestion">Chưa có tài khoản?</span> 
+            <span class="toggle-link" onclick="toggleAuth()" id="toggleText">Đăng ký ngay</span>
+        </div>
+        
+        <div style="background: rgba(239, 68, 68, 0.1); color: #fda4af; padding: 0.8rem; border-radius: 10px; font-size: 0.85rem; margin-top: 1.5rem; display: none; border: 1px solid rgba(239, 68, 68, 0.2);" id="errorMsg"></div>
+    </div>
+
+    <script>
+        let isLogin = true;
+
+        function toggleAuth() {
+            isLogin = !isLogin;
+            document.getElementById('authTitle').innerText = isLogin ? 'Chào mừng!' : 'Tham gia cùng chúng tôi';
+            document.getElementById('emailGroup').style.display = isLogin ? 'none' : 'block';
+            document.getElementById('authBtn').innerText = isLogin ? 'Vào Đấu Trường 🚀' : 'Đăng Ký Thành Viên ✨';
+            document.getElementById('toggleQuestion').innerText = isLogin ? 'Chưa có tài khoản?' : 'Đã có tài khoản?';
+            document.getElementById('toggleText').innerText = isLogin ? 'Đăng ký ngay' : 'Đăng nhập';
+            document.getElementById('errorMsg').style.display = 'none';
+        }
+
+        async function handleAuth() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const email = document.getElementById('email').value;
+            const errorMsg = document.getElementById('errorMsg');
+
+            if (!username || !password) {
+                errorMsg.innerText = "Vui lòng nhập đầy đủ thông tin!";
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
+            const body = isLogin ? { username, password } : { username, password, email };
+
+            try {
+                const res = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+
+                if (res.ok) {
+                    const user = await res.json();
+                    localStorage.setItem('user', JSON.stringify(user));
+                    localStorage.setItem('userId', user.id);
+                    localStorage.setItem('username', user.username);
+                    window.location.href = '/';
+                } else {
+                    const text = await res.text();
+                    errorMsg.innerText = text;
+                    errorMsg.style.display = 'block';
+                }
+            } catch (e) {
+                errorMsg.innerText = "Lỗi kết nối server!";
+                errorMsg.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

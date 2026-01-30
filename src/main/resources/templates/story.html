@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Mode - Quiz Arena RPG</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: var(--bg-darker);
+            color: white;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .story-header {
+            padding: 10rem 2rem 8rem;
+            background: radial-gradient(circle at top, rgba(99, 102, 241, 0.15), transparent);
+            text-align: center;
+        }
+
+        .story-title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #818cf8, #c084fc, #fb7185);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -2px;
+        }
+
+        .story-grid {
+            max-width: 1200px;
+            margin: -5rem auto 5rem;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .story-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 32px;
+            overflow: hidden;
+            transition: var(--transition-bounce);
+            cursor: pointer;
+        }
+
+        .story-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--primary-light);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .story-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            filter: brightness(0.8);
+            transition: all 0.5s ease;
+        }
+
+        .story-card:hover .story-img {
+            filter: brightness(1);
+            transform: scale(1.05);
+        }
+
+        .story-card-body {
+            padding: 2.5rem;
+        }
+
+        .btn-play-story {
+            width: 100%;
+            padding: 1.2rem;
+            border-radius: 16px;
+            background: var(--primary-gradient);
+            color: white;
+            font-weight: 800;
+            border: none;
+            margin-top: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        /* Premium Story Choice Buttons */
+        .choice-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 1.2rem 2rem;
+            border-radius: 20px;
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .choice-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--primary-light);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .choice-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .choice-btn span {
+            width: 32px;
+            height: 32px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+            flex-shrink: 0;
+        }
+
+        #choiceGrid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            transition: opacity 0.5s ease;
+        }
+
+        @media (max-width: 768px) {
+            #choiceGrid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="story-header animate-fade-in-up">
+        <div class="logo" onclick="window.location.href='/'" style="cursor:pointer; margin-bottom: 2rem; font-size: 1.8rem; font-weight: 900;">QUIZ<span style="color: var(--primary);">ARENA</span> <span style="font-weight: 300; opacity: 0.5;">STORY</span></div>
+        <h1 class="story-title">Butterfly Effect</h1>
+        <p style="opacity: 0.7; font-size: 1.2rem; max-width: 700px; margin: 0 auto;">Mỗi quyết định của bạn sẽ tạo nên một dòng đời mới. Bạn đã sẵn sàng viết nên câu chuyện của chính mình?</p>
+    </div>
+
+    <div class="story-grid">
+        <!-- Story Card 1 -->
+        <div class="story-card animate-fade-in-up" onclick="startStory('detective')" style="animation-delay: 0.1s;">
+            <img src="https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=800&q=80" class="story-img">
+            <div class="story-card-body">
+                <span style="color: var(--accent); font-weight: 800; font-size: 0.8rem; text-transform: uppercase;">Mystery</span>
+                <h3 style="color: white; font-size: 1.8rem; margin: 0.5rem 0 1rem;">Vụ án Ravenwood</h3>
+                <p style="color: var(--text-light); font-size: 0.95rem;">Hung thủ là kẻ bạn ít ngờ tới nhất. Hãy thu thập bằng chứng và phá giải vụ án mạng này.</p>
+                <button class="btn-play-story">BẮT ĐẦU ĐIỀU TRA </button>
+            </div>
+        </div>
+
+        <!-- Story Card 2 -->
+        <div class="story-card animate-fade-in-up" onclick="startStory('zombie')" style="animation-delay: 0.2s;">
+            <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800&q=80" class="story-img">
+            <div class="story-card-body">
+                <span style="color: #fb7185; font-weight: 800; font-size: 0.8rem; text-transform: uppercase;">Survival</span>
+                <h3 style="color: white; font-size: 1.8rem; margin: 0.5rem 0 1rem;">7 Ngày Sinh Tồn</h3>
+                <p style="color: var(--text-light); font-size: 0.95rem;">Đại dịch Z bùng phát. Bạn sẽ làm gì khi chỉ còn một mình trong căn phòng đây?</p>
+                <button class="btn-play-story" style="background: linear-gradient(to right, #fb7185, #e11d48);">CHỐNG LẠI ĐẠI DỊCH </button>
+            </div>
+        </div>
+
+        <!-- Story Card 3 -->
+        <div class="story-card animate-fade-in-up" onclick="startStory('cyberpunk')" style="animation-delay: 0.3s;">
+            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&q=80" class="story-img">
+            <div class="story-card-body">
+                <span style="color: #22d3ee; font-weight: 800; font-size: 0.8rem; text-transform: uppercase;">Sci-Fi</span>
+                <h3 style="color: white; font-size: 1.8rem; margin: 0.5rem 0 1rem;">Neon Rebellion</h3>
+                <p style="color: var(--text-light); font-size: 0.95rem;">Năm 2077. Bạn là một Decker huyền thoại bị Arasaka truy đuổi. Hãy hack vào hệ thống.</p>
+                <button class="btn-play-story" style="background: linear-gradient(to right, #0891b2, #06b6d4);">XÂM NHẬP HỆ THỐNG </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RPG Gameplay Overlay -->
+    <div id="storyOverlay" style="position: fixed; inset: 0; background: #000; z-index: 2000; display: none; opacity: 0; transition: opacity 1s ease;">
+        <div id="storyVisual" style="position: absolute; inset: 0; background-size: cover; background-position: center; transition: all 2s ease;"></div>
+        <button class="btn-exit" onclick="exitStory()" style="position: absolute; top: 2rem; right: 2rem; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); color: white; border: 1px solid rgba(255,255,255,0.1); padding: 0.8rem 1.5rem; border-radius: 50px; cursor: pointer; font-weight: 700; z-index: 100;">DỪNG CHƠI</button>
+        
+        <div style="position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%); width: 90%; max-width: 900px; z-index: 10;">
+            <div id="storyDialogue" class="glass-card" style="padding: 2.5rem; border-radius: 30px; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.1);">
+                <div id="charName" style="color: var(--primary-light); font-weight: 900; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 2px;">Hệ Thống</div>
+                <div id="dialogueText" style="font-size: 1.5rem; line-height: 1.6; margin-bottom: 2rem; font-weight: 500;">Đang khởi tạo cốt truyện...</div>
+                <div id="choiceGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/story_engine.js"></script>
+</body>
+</html>

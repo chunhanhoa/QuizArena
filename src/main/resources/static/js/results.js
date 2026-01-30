@@ -27,16 +27,24 @@ function renderResults(players) {
     const podiumDiv = document.getElementById('podium');
     podiumDiv.innerHTML = '';
 
-    const positions = ['second', 'first', 'third'];
+    const positions = ['rank-2', 'rank-1', 'rank-3'];
     [1, 0, 2].forEach((idx, i) => {
         const p = sorted[idx];
         if (p) {
             const item = document.createElement('div');
-            item.className = `podium-item ${positions[i]}`;
+            item.className = `podium-item ${positions[i]} animate-fade-in-up`;
+            item.style.animationDelay = `${i * 0.2}s`;
             item.innerHTML = `
-                <div class="podium-bar">${idx + 1}</div>
-                <div class="player-name">${p.username}</div>
-                <div class="player-score">${p.score} pts</div>
+                <div class="avatar-wrap">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${p.username}" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="player-info">
+                    <div class="player-name">${p.username}</div>
+                    <div class="player-score">${p.score} pts</div>
+                </div>
+                <div class="podium-base">
+                    ${idx + 1}
+                </div>
             `;
             podiumDiv.appendChild(item);
         }

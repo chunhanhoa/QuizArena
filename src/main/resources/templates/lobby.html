@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phòng Chờ Multiplayer - Quiz Arena</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: var(--bg-darker);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lobby-card {
+            width: 100%;
+            max-width: 1000px;
+            padding: 4rem;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 4rem;
+        }
+
+        .pin-display {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2.5rem;
+            border-radius: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            margin-bottom: 2rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .pin-code {
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: 0.5rem;
+            color: #fbbf24;
+            text-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
+            white-space: nowrap;
+        }
+        /* ... existing styles ... */
+    </style>
+</head>
+<body>
+    <div class="lobby-card animate-fade-in-up">
+        <div class="lobby-main">
+            <h1 style="font-size: 3.5rem; margin-bottom: 0.5rem; background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900;">Phòng Chờ 🎮</h1>
+            <p style="color: var(--text-light); font-size: 1.1rem; margin-bottom: 3rem; opacity: 0.8;">Đang đợi các đối thủ khác gia nhập...</p>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem;" id="playerList">
+                <!-- Players tags will be injected here -->
+            </div>
+
+            <div style="margin-top: 5rem;" id="adminControls">
+                <button id="startBtn" class="btn-primary" onclick="startGame()" style="padding: 1.2rem 4rem; font-size: 1.2rem; display: none;">BẮT ĐẦU TRẬN ĐẤU 🚀</button>
+            </div>
+        </div>
+
+        <div class="lobby-sidebar" style="display: flex; flex-direction: column; justify-content: center;">
+            <div class="pin-display">
+                <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.6; margin-bottom: 0.5rem;">MÃ PHÒNG</div>
+                <div id="roomPin" class="pin-code">------</div>
+                <button onclick="copyInviteLink()" style="margin-top: 1rem; background: var(--primary-gradient); border: none; color: white; padding: 0.7rem 1.5rem; border-radius: 20px; font-size: 0.9rem; font-weight: 700; cursor: pointer; box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);">🔗 Copy mã PIN</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="/js/lobby.js"></script>
+</body>
+</html>
+

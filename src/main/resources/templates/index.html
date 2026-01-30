@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Arena - Đấu Trường Trí Tuệ</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; background: #fdfdfd; }
+        .hero-section {
+            padding: 6rem 0 4rem;
+            background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.05), transparent),
+                        radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.05), transparent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .search-container {
+            margin-top: 2.5rem;
+            max-width: 480px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-wrapper {
+            display: flex;
+            background: white;
+            padding: 0.6rem;
+            border-radius: 100px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: var(--transition-bounce);
+        }
+
+        .search-wrapper:focus-within {
+            transform: scale(1.02);
+            box-shadow: 0 20px 30px -10px rgba(99, 102, 241, 0.2);
+            border-color: var(--primary-light);
+        }
+
+        .search-wrapper input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 0 1.5rem;
+            font-size: 1.1rem;
+            font-family: inherit;
+            background: transparent;
+        }
+
+        .btn-search {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 100px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .cat-nav {
+            display: flex;
+            gap: 1rem;
+            margin: 3rem 0;
+            overflow-x: auto;
+            padding: 10px 5px;
+            scrollbar-width: none;
+        }
+
+        .cat-btn {
+            padding: 0.8rem 1.5rem;
+            background: white;
+            border-radius: 100px;
+            border: 1px solid rgba(0,0,0,0.05);
+            font-weight: 700;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: var(--transition-bounce);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            white-space: nowrap;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .view-all {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .view-all:hover {
+            text-decoration: underline;
+        }
+
+        /* Premium Quiz Grid & Cards */
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .quiz-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            transition: var(--transition-bounce);
+            border: 1px solid rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 60px -12px rgba(99, 102, 241, 0.15);
+            border-color: var(--primary-light);
+        }
+
+        .quiz-thumbnail {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-thumbnail::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+        }
+
+        .quiz-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            z-index: 2;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .quiz-content {
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .quiz-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 3.5rem;
+        }
+
+        .quiz-info {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1.2rem;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .quiz-info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .quiz-info-item i {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .category-section {
+            margin-top: 2rem;
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-left: 0.5rem;
+            border-left: 5px solid var(--primary);
+        }
+
+        .category-name {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+            margin-left: 1rem;
+        }
+
+        .cat-btn:hover, .cat-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.3);
+            border-color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <nav class="glass-card" style="position: sticky; top: 1.5rem; z-index: 1000; margin: 1.5rem 5% 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;">
+        <div class="logo" style="cursor: pointer; font-size: 1.8rem; font-weight: 900; letter-spacing: -1.5px; color: var(--bg-dark);" onclick="window.location.reload()">
+            QUIZ<span style="color: var(--primary);">ARENA</span>
+        </div>
+        
+        <div style="display: flex; gap: 1.5rem; align-items: center;" id="navAuth">
+            <button id="loginBtn" class="btn-primary" onclick="window.location.href='/login'" style="padding: 0.6rem 1.5rem; font-size: 0.95rem;">
+                Đăng nhập
+            </button>
+            <div id="userProfile" style="display: none; align-items: center; gap: 1rem; background: #f1f5f9; padding: 0.4rem 1rem; border-radius: 100px; border: 1px solid rgba(0,0,0,0.05);">
+                <img id="userAvatar" src="" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                <div style="text-align: left;">
+                    <div id="navUsername" style="font-weight: 700; font-size: 0.85rem; color: var(--text-dark);">Username</div>
+                    <div style="font-size: 0.7rem; color: var(--danger); font-weight: 600; cursor: pointer;" onclick="logout()">Đăng xuất</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero-section">
+        <div class="container hero-grid">
+            <div class="hero-content animate-fade-in-up">
+                <span style="background: rgba(99, 102, 241, 0.1); color: var(--primary); padding: 0.5rem 1rem; border-radius: 100px; font-weight: 800; font-size: 0.85rem; margin-bottom: 1.5rem; display: inline-block;">✨ TRẢI NGHIỆM HỌC TẬP MỚI</span>
+                <h1 style="font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 1.5rem;">Quiz Arena<br><span style="background: var(--primary-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;"></span></h1>
+                <p style="font-size: 1.2rem; color: var(--text-light); max-width: 500px;">Khám phá hàng ngàn bộ câu hỏi thông minh hoặc tự tạo thử thách của riêng bạn với sự trợ giúp của AI.</p>
+                
+                <div class="search-container">
+                    <div class="search-wrapper">
+                        <input type="text" id="pinInput" placeholder="Tìm kiếm quiz hoặc nhập mã PIN..." oninput="handleSearch(this.value)">
+                        <button class="btn-search" onclick="joinRoom()">Chơi ngay</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-visual animate-float" style="position: relative;">
+                <div style="position: absolute; width: 300px; height: 300px; background: var(--primary-light); filter: blur(100px); opacity: 0.2; top: 10%; right: 10%;"></div>
+                <div class="glass-card" style="width: 100%; aspect-ratio: 1; padding: 2.5rem; transform: perspective(1000px) rotateY(-10deg) rotateX(10deg); border: 1px solid rgba(255,255,255,0.4);">
+                    <div style="width: 100%; height: 100%; border-radius: var(--radius-md); background: #f8fafc; border: 1px solid #e2e8f0; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="height: 40px; width: 40px; background: var(--primary-gradient); border-radius: 10px;"></div>
+                        <div style="height: 12px; width: 60%; background: #e2e8f0; border-radius: 6px;"></div>
+                        <div style="height: 12px; width: 90%; background: #e2e8f0; border-radius: 6px;"></div>
+                        <div style="margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div style="height: 45px; background: rgba(99, 102, 241, 0.1); border-radius: 12px;"></div>
+                            <div style="height: 45px; background: rgba(16, 185, 129, 0.1); border-radius: 12px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 2rem;">
+        <div class="cat-nav animate-fade-in-up" style="animation-delay: 0.2s;">
+            <button class="cat-btn active" onclick="filterQuizzes('All', this)"><span>🔥</span> Phổ biến</button>
+            <button class="cat-btn" onclick="filterQuizzes('Nghệ thuật', this)"><span>🎨</span> Nghệ thuật</button>
+            <button class="cat-btn" onclick="filterQuizzes('Địa lý', this)"><span>🌍</span> Địa lý</button>
+            <button class="cat-btn" onclick="filterQuizzes('Thể thao', this)"><span>🏀</span> Thể thao</button>
+            <button class="cat-btn" onclick="filterQuizzes('Khoa học', this)"><span>🧬</span> Khoa học</button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 5rem;" class="animate-fade-in-up">
+            <div class="glass-card" style="padding: 2.5rem; background: var(--primary-gradient); color: white; position: relative; overflow: hidden; border: none;">
+                <div style="position: relative; z-index: 2;">
+                    <h2 style="color: white; font-size: 1.8rem; margin-bottom: 0.5rem;">Create Quiz</h2>
+                    <p style="opacity: 0.9; margin-bottom: 2rem;">Tạo bộ câu hỏi chuyên nghiệp chỉ trong tích tắc.</p>
+                    <button class="btn-secondary" onclick="checkAuthAndGo('/create')" style="background: white; border: none; color: var(--primary); padding: 0.9rem 2rem;">Bắt đầu tạo</button>
+                </div>
+                <div style="position: absolute; right: -20px; bottom: -20px; font-size: 8rem; opacity: 0.1;">✍️</div>
+            </div>
+            
+            <div class="glass-card" style="padding: 2.5rem; background: #0f172a; color: white; position: relative; overflow: hidden; border: none;">
+                <div style="position: relative; z-index: 2;">
+                    <h2 style="color: white; font-size: 1.8rem; margin-bottom: 0.5rem;">Story Mode</h2>
+                    <p style="opacity: 0.8; margin-bottom: 2rem;">Học tập qua cốt truyện nhập vai kịch tính.</p>
+                    <button class="btn-primary" onclick="window.location.href='/story'" style="box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4);">Khám phá ngay</button>
+                </div>
+                <div style="position: absolute; right: -10px; bottom: -10px; font-size: 8rem; opacity: 0.1;">📔</div>
+            </div>
+        </div>
+
+        <div id="categoriesContainer">
+            <!-- Quizzes injected here -->
+        </div>
+    </div>
+
+    <!-- Quiz Selection Modal -->
+    <div id="quizModal" class="modal-overlay" onclick="closeModal()">
+        <div class="modal-content glass-card" style="max-width: 550px; background: rgba(255,255,255,0.95); border: 1px solid white;" onclick="event.stopPropagation()">
+            <div class="modal-header-img" id="modalImg" style="height: 250px; position: relative; background-size: cover; background-position: center; border-radius: 20px 20px 0 0;">
+                <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);"></div>
+                <button onclick="closeModal()" style="position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); color: white; border-radius: 50%; width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: var(--transition);">✕</button>
+            </div>
+            <div class="modal-body" style="padding: 2.5rem; text-align: center;">
+                <h2 id="modalTitle" style="font-size: 2.2rem; font-weight: 900; margin-bottom: 0.5rem; background: var(--primary-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Tên chủ đề</h2>
+                <p style="color: var(--text-muted); font-size: 1rem; margin-bottom: 2.5rem; font-weight: 600;" id="modalMeta">Đang tải...</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <button class="btn-primary" onclick="startPractice()" style="padding: 1.2rem; justify-content: center; font-size: 1rem;">
+                        <span>▶</span> THỰC HÀNH
+                    </button>
+                    <button class="btn-secondary" onclick="startChallenge()" style="padding: 1.2rem; justify-content: center; font-size: 1rem; background: #f8fafc; border-color: #e2e8f0; color: var(--text-dark);">
+                        <span>👥</span> THÁCH ĐẤU
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentQuizzes = [];
+        let selectedQuizId = "";
+        let currentFilter = 'All';
+
+        async function loadQuizzes() {
+            // Hiển thị ngay từ cache nếu có
+            const cached = localStorage.getItem('quizzes_cache');
+            if (cached) {
+                currentQuizzes = JSON.parse(cached);
+                renderCategories(currentFilter);
+            }
+
+            try {
+                const res = await fetch('/api/quizzes');
+                if (!res.ok) throw new Error("API Error");
+                let freshData = await res.json();
+
+                // Chỉ lưu thông tin cần thiết vào cache để tránh lỗi QuotaExceeded
+                const cacheData = freshData.map(q => ({
+                    id: q.id,
+                    title: q.title,
+                    category: q.category,
+                    thumbnail: q.thumbnail,
+                    questionCount: q.questions ? q.questions.length : 0,
+                    creatorName: q.creatorName
+                }));
+                
+                if (JSON.stringify(freshData) !== JSON.stringify(currentQuizzes)) {
+                    currentQuizzes = freshData;
+                    try {
+                        localStorage.setItem('quizzes_cache', JSON.stringify(cacheData));
+                    } catch (quotaError) {
+                        console.warn("Storage quota exceeded, keeping partial cache...");
+                        localStorage.setItem('quizzes_cache', JSON.stringify(cacheData.slice(0, 10))); // Lưu tạm 10 cái mới nhất
+                    }
+                    renderCategories(currentFilter);
+                }
+            } catch (e) {
+                console.error("Lỗi fetch quiz:", e);
+                if (!currentQuizzes || currentQuizzes.length === 0) {
+                    document.getElementById('categoriesContainer').innerHTML = 
+                        `<div style="text-align: center; padding: 5rem; opacity: 0.5;">Không thể kết nối máy chủ. Vui lòng thử lại.</div>`;
+                }
+            }
+        }
+
+        function filterQuizzes(category, element) {
+            currentFilter = category;
+            document.querySelectorAll('.cat-btn').forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+            renderCategories(category);
+        }
+
+        function handleSearch(query) {
+            renderCategories(currentFilter, query);
+        }
+
+        function renderCategories(filter = 'All', searchQuery = '') {
+            const container = document.getElementById('categoriesContainer');
+            if (!container) return;
+            
+            let filteredQuizzes = currentQuizzes || [];
+            
+            // Lọc theo danh mục
+            if (filter !== 'All') {
+                filteredQuizzes = filteredQuizzes.filter(q => 
+                    q.category && q.category.toLowerCase() === filter.toLowerCase()
+                );
+            }
+            
+            // Lọc tìm kiếm
+            if (searchQuery) {
+                const q = searchQuery.toLowerCase();
+                filteredQuizzes = filteredQuizzes.filter(quiz => 
+                    (quiz.title && quiz.title.toLowerCase().includes(q)) ||
+                    (quiz.category && quiz.category.toLowerCase().includes(q))
+                );
+            }
+
+            container.innerHTML = "";
+
+            if (filteredQuizzes.length === 0) {
+                container.innerHTML = `<div style="text-align: center; padding: 5rem; color: var(--text-muted); font-weight: 500;">
+                    ${searchQuery ? `Không thấy kết quả cho "${searchQuery}"` : 'Chưa có thử thách nào.'}
+                </div>`;
+                return;
+            }
+
+            // Group by category
+            const categories = [...new Set(filteredQuizzes.map(q => q.category || 'Chưa phân loại'))];
+            
+            categories.forEach(cat => {
+                const quizInCat = filteredQuizzes.filter(q => (q.category || 'Chưa phân loại') === cat);
+                if (quizInCat.length === 0) return;
+
+                const section = document.createElement('div');
+                section.className = 'category-section animate-fade-in-up';
+                section.innerHTML = `
+                    <div class="category-header">
+                        <h2 class="category-name">${cat}</h2>
+                        <span style="background: var(--primary-light); color: white; padding: 0.5rem 1.2rem; border-radius: 99px; font-size: 0.85rem; font-weight: 800; box-shadow: var(--shadow-sm);">${quizInCat.length} Quiz</span>
+                    </div>
+                    <div class="quiz-grid">
+                        ${quizInCat.map(q => `
+                            <div class="quiz-card" onclick="openQuiz('${q.id}')">
+                                <div class="quiz-thumbnail" style="background-image: url('${q.thumbnail || 'https://images.unsplash.com/photo-1606326666700-481c058e74a?w=400&q=80'}')">
+                                    <div class="quiz-badge">${q.category || 'General'}</div>
+                                </div>
+                                <div class="quiz-content">
+                                    <h3 class="quiz-title">${q.title}</h3>
+                                    <div class="quiz-info">
+                                        <div class="quiz-info-item">
+                                            <i class="fas fa-question-circle"></i>
+                                            <span>${q.questionCount || (q.questions ? q.questions.length : 0)} câu hỏi</span>
+                                        </div>
+                                        <div class="quiz-info-item">
+                                            <i class="fas fa-user"></i>
+                                            <span>${q.creatorName || 'Admin'}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(section);
+            });
+        }
+
+        function checkAuthAndGo(url) {
+            if (!localStorage.getItem('userId')) {
+                window.location.href = '/login';
+            } else {
+                window.location.href = url;
+            }
+        }
+
+        function checkLoginState() {
+            const userStr = localStorage.getItem('user');
+            if (userStr) {
+                const user = JSON.parse(userStr);
+                document.getElementById('loginBtn').style.display = 'none';
+                document.getElementById('userProfile').style.display = 'flex';
+                document.getElementById('navUsername').innerText = user.username;
+                const avatar = user.profile && user.profile.avatar ? user.profile.avatar : `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}`;
+                document.getElementById('userAvatar').src = avatar;
+            }
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.reload();
+        }
+
+        const modal = document.getElementById('quizModal');
+
+        function openQuiz(quizId) {
+            const quiz = currentQuizzes.find(q => q.id === quizId);
+            if (!quiz) return;
+            
+            selectedQuizId = quizId;
+            document.getElementById('modalTitle').innerText = quiz.title;
+            document.getElementById('modalImg').style.backgroundImage = `url('${quiz.thumbnail || 'https://placehold.co/600x400?text=Quiz'}')`;
+            document.getElementById('modalMeta').innerText = `Số câu hỏi: ${quiz.questions ? quiz.questions.length : 0} | Danh mục: ${quiz.category || 'Chung'}`;
+            
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            setTimeout(() => modal.style.display = 'none', 300);
+        }
+
+        function startPractice() {
+            const quiz = currentQuizzes.find(q => q.id === selectedQuizId);
+            localStorage.setItem('currentQuiz', JSON.stringify(quiz));
+            window.location.href = '/game';
+        }
+
+        function startChallenge() {
+            window.location.href = `/lobby.html?quizId=${selectedQuizId}`;
+        }
+
+        function joinRoom() {
+            const pin = document.getElementById('pinInput').value;
+            if (pin) window.location.href = `/lobby.html?pin=${pin}`;
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) closeModal();
+        }
+
+        checkLoginState();
+        loadQuizzes();
+    </script>
+</body>
+</html>

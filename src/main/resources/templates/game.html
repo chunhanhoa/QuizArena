@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đang Thi Đấu - Quiz Arena</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: var(--bg-darker);
+            color: white;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .game-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 3rem;
+            height: 100vh;
+            padding: 3rem;
+        }
+
+        .question-area {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .question-text {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 3rem;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .game-option {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.8rem;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition-bounce);
+            position: relative;
+            overflow: hidden;
+            color: white !important;
+        }
+
+        .game-option:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .option-indicator {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Distinct Colors for Options */
+        .opt-a .option-indicator { background: #ef4444; }
+        .opt-b .option-indicator { background: #3b82f6; }
+        .opt-c .option-indicator { background: #f59e0b; }
+        .opt-d .option-indicator { background: #10b981; }
+
+        .game-option.correct {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: #10b981;
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
+        }
+
+        .game-option.wrong {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+            opacity: 0.6;
+        }
+
+        .media-area {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .question-media {
+            width: 100%;
+            aspect-ratio: 16/10;
+            background: rgba(255,255,255,0.05);
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.1);
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .leaderboard-panel {
+            flex: 1;
+            background: rgba(255,255,255,0.03);
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 12px;
+            margin-bottom: 0.8rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .leaderboard-item.me {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--primary-light);
+        }
+
+        .timer-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.05);
+            z-index: 1000;
+        }
+
+        #timerProgress {
+            height: 100%;
+            background: var(--primary-gradient);
+            width: 100%;
+            transition: width 1s linear;
+            box-shadow: 0 0 15px var(--primary-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="timer-container">
+        <div id="timerProgress"></div>
+    </div>
+
+    <main class="game-layout">
+        <!-- Cột trái: Câu hỏi và Đáp án -->
+        <section class="question-area animate-fade-in-up">
+            <div id="questionText" class="question-text">Đang tải thử thách tiếp theo...</div>
+            
+            <div id="optionsGrid" class="options-container">
+                <!-- Nút đáp án sẽ được JS inject vào đây -->
+            </div>
+
+            <!-- Giải thích từ AI (nếu có) -->
+            <div id="explanationBox" style="display: none; margin-top: 2rem; padding: 1.5rem; background: rgba(59, 130, 246, 0.1); border-radius: 16px; border-left: 4px solid var(--primary-light); color: var(--text-light);">
+            </div>
+        </section>
+
+        <!-- Cột phải: Media và Leaderboard -->
+        <aside class="media-area">
+            <div class="question-media" id="imageBox">
+                <div id="questionImage" style="width: 100%; height: 100%; background: url('https://placehold.co/600x400/0f172a/white?text=Waiting...') center/cover; transition: var(--transition);"></div>
+            </div>
+
+            <div class="leaderboard-panel animate-fade-in-up" style="animation-delay: 0.2s;">
+                <h3 style="color: var(--accent); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                    Bảng Xếp Hạng 🏁
+                    <span id="myScore" style="color: white; font-size: 1.2rem; font-weight: 900;">0</span>
+                </h3>
+                <div id="leaderboardList" style="overflow-y: auto; flex: 1; padding-right: 0.5rem;">
+                    <!-- Ranking items -->
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Power-ups Bar -->
+    <div id="powerups" style="position: fixed; left: 2rem; bottom: 2rem; display: flex; gap: 1rem; z-index: 100;">
+        <div class="powerup-btn" onclick="usePowerup('5050')" title="50/50" style="width: 50px; height: 50px; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #ef4444; font-weight: 900; backdrop-filter: blur(10px);">½</div>
+        <div class="powerup-btn" onclick="usePowerup('freeze')" title="Freeze" style="width: 50px; height: 50px; background: rgba(59, 130, 246, 0.2); border: 1px solid #3b82f6; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem; backdrop-filter: blur(10px);">❄️</div>
+        <div class="powerup-btn" onclick="usePowerup('x2')" title="Double Points" style="width: 50px; height: 50px; background: rgba(245, 158, 11, 0.2); border: 1px solid #f59e0b; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #f59e0b; font-weight: 900; backdrop-filter: blur(10px);">x2</div>
+    </div>
+
+    <div id="scorePopup" class="score-popup" style="color: var(--accent); position: fixed; top: 20%; left: 50%; transform: translateX(-50%); pointer-events: none; font-size: 4rem; font-weight: 900; opacity: 0; z-index: 2000;">+0</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="/js/game.js"></script>
+
+
+</body>
+</html>
+
