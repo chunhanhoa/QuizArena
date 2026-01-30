@@ -3,178 +3,318 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Quiz Arena - Đấu Trường Trí Tuệ</title>
+    <title>Quiz Arena - Đấu Trường Trí Tuệ</title>
     <link rel="stylesheet" href="/css/index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        .hero {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            min-height: 80vh;
-            gap: 4rem;
-        }
-
-        .hero-content {
-            flex: 1;
-        }
-
-        .hero-visual {
-            flex: 1;
-            display: flex;
-            justify-content: center;
+        body { font-family: 'Outfit', sans-serif; background: #fdfdfd; }
+        .hero-section {
+            padding: 6rem 0 4rem;
+            background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.05), transparent),
+                        radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.05), transparent);
             position: relative;
+            overflow: hidden;
         }
 
-        .quiz-card-mockup {
-            width: 320px;
-            height: 400px;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transform: rotate(-5deg);
-            z-index: 1;
-        }
-
-        .card-decoration {
-            position: absolute;
-            width: 320px;
-            height: 400px;
-            background: var(--primary);
-            border-radius: var(--radius);
-            top: 20px;
-            right: 20px;
-            opacity: 0.2;
-            transform: rotate(5deg);
-        }
-
-        .features-grid {
+        .hero-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, min-minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 4rem;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 4rem;
+            align-items: center;
         }
 
-        .feature-card {
-            padding: 2rem;
+        .search-container {
+            margin-top: 2.5rem;
+            max-width: 480px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-wrapper {
+            display: flex;
+            background: white;
+            padding: 0.6rem;
+            border-radius: 100px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: var(--transition-bounce);
+        }
+
+        .search-wrapper:focus-within {
+            transform: scale(1.02);
+            box-shadow: 0 20px 30px -10px rgba(99, 102, 241, 0.2);
+            border-color: var(--primary-light);
+        }
+
+        .search-wrapper input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 0 1.5rem;
+            font-size: 1.1rem;
+            font-family: inherit;
+            background: transparent;
+        }
+
+        .btn-search {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 100px;
+            font-weight: 700;
+            cursor: pointer;
             transition: var(--transition);
         }
 
-        .feature-card:hover {
-            border-color: var(--primary-light);
-            transform: translateY(-5px);
+        .cat-nav {
+            display: flex;
+            gap: 1rem;
+            margin: 3rem 0;
+            overflow-x: auto;
+            padding: 10px 5px;
+            scrollbar-width: none;
         }
 
-        .nav {
+        .cat-btn {
+            padding: 0.8rem 1.5rem;
+            background: white;
+            border-radius: 100px;
+            border: 1px solid rgba(0,0,0,0.05);
+            font-weight: 700;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: var(--transition-bounce);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            white-space: nowrap;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .view-all {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .view-all:hover {
+            text-decoration: underline;
+        }
+
+        /* Premium Quiz Grid & Cards */
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .quiz-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            transition: var(--transition-bounce);
+            border: 1px solid rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 60px -12px rgba(99, 102, 241, 0.15);
+            border-color: var(--primary-light);
+        }
+
+        .quiz-thumbnail {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-thumbnail::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+        }
+
+        .quiz-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            z-index: 2;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .quiz-content {
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .quiz-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 3.5rem;
+        }
+
+        .quiz-info {
+            margin-top: auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem 0;
+            padding-top: 1.2rem;
+            border-top: 1px solid #f1f5f9;
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-        }
-
-        .input-group {
-            background: var(--glass);
-            padding: 0.5rem;
-            border-radius: 1rem;
-            border: 1px solid var(--glass-border);
+        .quiz-info-item {
             display: flex;
+            align-items: center;
             gap: 0.5rem;
-            margin-top: 2rem;
-            max-width: 500px;
-        }
-
-        .input-group input {
-            background: transparent;
-            border: none;
-            color: white;
-            padding: 0.75rem 1rem;
-            flex: 1;
-            outline: none;
-            font-size: 1rem;
-        }
-
-        .badge {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--secondary);
-            padding: 0.25rem 0.75rem;
-            border-radius: 2rem;
             font-size: 0.85rem;
+            color: var(--text-muted);
             font-weight: 600;
-            display: inline-block;
-            margin-bottom: 1rem;
+        }
+
+        .quiz-info-item i {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .category-section {
+            margin-top: 2rem;
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-left: 0.5rem;
+            border-left: 5px solid var(--primary);
+        }
+
+        .category-name {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+            margin-left: 1rem;
+        }
+
+        .cat-btn:hover, .cat-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.3);
+            border-color: transparent;
         }
     </style>
 </head>
-<body style="background: #fdfdfd;">
-    <div class="nav-bar animate-fade-in" style="background: white; padding: 1rem 5%; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
-        <div class="logo" style="cursor: pointer; font-size: 2rem; font-weight: 900; letter-spacing: -1.5px;" onclick="window.location.reload()">QUIZ<span style="color: var(--primary);">ARENA</span></div>
-        <div style="display: flex; gap: 2rem; align-items: center;" id="navAuth">
-            <div class="search-box" style="margin: 0; width: 350px; border: 2px solid #f1f5f9;">
-                <input type="text" id="pinInput" placeholder="Tìm kiếm quiz hoặc nhập PIN..." oninput="handleSearch(this.value)">
-                <button onclick="joinRoom()" style="background: var(--primary-gradient); padding: 0.6rem 1.5rem; border-radius: 20px; font-weight: 700; color: white; border: none; cursor: pointer;">Chơi ngay</button>
-            </div>
-            <button id="loginBtn" class="btn-view-more" onclick="window.location.href='/login'" style="background: var(--primary-gradient); color: white; border: none; padding: 0.7rem 1.5rem; border-radius: 12px; font-weight: 700; opacity: 0.9; transition: var(--transition);">Đăng nhập</button>
-            <div id="userProfile" style="display: none; align-items: center; gap: 1rem;">
-                <img id="userAvatar" src="" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary);">
+<body>
+    <nav class="glass-card" style="position: sticky; top: 1.5rem; z-index: 1000; margin: 1.5rem 5% 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;">
+        <div class="logo" style="cursor: pointer; font-size: 1.8rem; font-weight: 900; letter-spacing: -1.5px; color: var(--bg-dark);" onclick="window.location.reload()">
+            QUIZ<span style="color: var(--primary);">ARENA</span>
+        </div>
+        
+        <div style="display: flex; gap: 1.5rem; align-items: center;" id="navAuth">
+            <button id="loginBtn" class="btn-primary" onclick="window.location.href='/login'" style="padding: 0.6rem 1.5rem; font-size: 0.95rem;">
+                Đăng nhập
+            </button>
+            <div id="userProfile" style="display: none; align-items: center; gap: 1rem; background: #f1f5f9; padding: 0.4rem 1rem; border-radius: 100px; border: 1px solid rgba(0,0,0,0.05);">
+                <img id="userAvatar" src="" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
                 <div style="text-align: left;">
-                    <div id="navUsername" style="font-weight: 700; font-size: 0.9rem;">Username</div>
-                    <div style="font-size: 0.75rem; opacity: 0.6; cursor: pointer;" onclick="logout()">Đăng xuất</div>
+                    <div id="navUsername" style="font-weight: 700; font-size: 0.85rem; color: var(--text-dark);">Username</div>
+                    <div style="font-size: 0.7rem; color: var(--danger); font-weight: 600; cursor: pointer;" onclick="logout()">Đăng xuất</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero-section">
+        <div class="container hero-grid">
+            <div class="hero-content animate-fade-in-up">
+                <span style="background: rgba(99, 102, 241, 0.1); color: var(--primary); padding: 0.5rem 1rem; border-radius: 100px; font-weight: 800; font-size: 0.85rem; margin-bottom: 1.5rem; display: inline-block;">✨ TRẢI NGHIỆM HỌC TẬP MỚI</span>
+                <h1 style="font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 1.5rem;">Quiz Arena<br><span style="background: var(--primary-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;"></span></h1>
+                <p style="font-size: 1.2rem; color: var(--text-light); max-width: 500px;">Khám phá hàng ngàn bộ câu hỏi thông minh hoặc tự tạo thử thách của riêng bạn với sự trợ giúp của AI.</p>
+                
+                <div class="search-container">
+                    <div class="search-wrapper">
+                        <input type="text" id="pinInput" placeholder="Tìm kiếm quiz hoặc nhập mã PIN..." oninput="handleSearch(this.value)">
+                        <button class="btn-search" onclick="joinRoom()">Chơi ngay</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-visual animate-float" style="position: relative;">
+                <div style="position: absolute; width: 300px; height: 300px; background: var(--primary-light); filter: blur(100px); opacity: 0.2; top: 10%; right: 10%;"></div>
+                <div class="glass-card" style="width: 100%; aspect-ratio: 1; padding: 2.5rem; transform: perspective(1000px) rotateY(-10deg) rotateX(10deg); border: 1px solid rgba(255,255,255,0.4);">
+                    <div style="width: 100%; height: 100%; border-radius: var(--radius-md); background: #f8fafc; border: 1px solid #e2e8f0; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="height: 40px; width: 40px; background: var(--primary-gradient); border-radius: 10px;"></div>
+                        <div style="height: 12px; width: 60%; background: #e2e8f0; border-radius: 6px;"></div>
+                        <div style="height: 12px; width: 90%; background: #e2e8f0; border-radius: 6px;"></div>
+                        <div style="margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div style="height: 45px; background: rgba(99, 102, 241, 0.1); border-radius: 12px;"></div>
+                            <div style="height: 45px; background: rgba(16, 185, 129, 0.1); border-radius: 12px;"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="category-nav animate-fade-in" style="background: #fff; padding: 1rem 5%; display: flex; gap: 2.5rem; overflow-x: auto; border-bottom: 1px solid #f8f8f8; scrollbar-width: none;">
-        <style>.cat-item:hover { transform: translateY(-3px); opacity: 1 !important; color: var(--primary); }</style>
-        <div class="cat-item active" onclick="filterQuizzes('All', this)" style="display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: var(--transition);">
-            <span style="font-size: 1.5rem;">🔥</span>
-            <span style="font-size: 0.85rem; font-weight: 800; margin-top: 4px;">Phổ biến</span>
+    <div class="container" style="margin-top: 2rem;">
+        <div class="cat-nav animate-fade-in-up" style="animation-delay: 0.2s;">
+            <button class="cat-btn active" onclick="filterQuizzes('All', this)"><span>🔥</span> Phổ biến</button>
+            <button class="cat-btn" onclick="filterQuizzes('Nghệ thuật', this)"><span>🎨</span> Nghệ thuật</button>
+            <button class="cat-btn" onclick="filterQuizzes('Địa lý', this)"><span>🌍</span> Địa lý</button>
+            <button class="cat-btn" onclick="filterQuizzes('Thể thao', this)"><span>🏀</span> Thể thao</button>
+            <button class="cat-btn" onclick="filterQuizzes('Khoa học', this)"><span>🧬</span> Khoa học</button>
         </div>
-        <div class="cat-item" onclick="filterQuizzes('Nghệ thuật', this)" style="display: flex; flex-direction: column; align-items: center; cursor: pointer; opacity: 0.5; transition: var(--transition);">
-            <span style="font-size: 1.5rem;">🎨</span>
-            <span style="font-size: 0.85rem; font-weight: 700; margin-top: 4px;">Nghệ thuật</span>
-        </div>
-        <div class="cat-item" onclick="filterQuizzes('Địa lý', this)" style="display: flex; flex-direction: column; align-items: center; cursor: pointer; opacity: 0.5; transition: var(--transition);">
-            <span style="font-size: 1.5rem;">🌍</span>
-            <span style="font-size: 0.85rem; font-weight: 700; margin-top: 4px;">Địa lý</span>
-        </div>
-        <div class="cat-item" onclick="filterQuizzes('Thể thao', this)" style="display: flex; flex-direction: column; align-items: center; cursor: pointer; opacity: 0.5; transition: var(--transition);">
-            <span style="font-size: 1.5rem;">🏀</span>
-            <span style="font-size: 0.85rem; font-weight: 700; margin-top: 4px;">Thể thao</span>
-        </div>
-        <div class="cat-item" onclick="filterQuizzes('Khoa học', this)" style="display: flex; flex-direction: column; align-items: center; cursor: pointer; opacity: 0.5; transition: var(--transition);">
-            <span style="font-size: 1.5rem;">🧬</span>
-            <span style="font-size: 0.85rem; font-weight: 700; margin-top: 4px;">Khoa học</span>
-        </div>
-    </div>
 
-    <div class="container" style="padding: 2rem 5%;">
-        <!-- Hero Section (Image 2 style) -->
-        <div style="display: flex; gap: 2rem; margin-bottom: 4rem;" class="animate-fade-in">
-            <div class="hero-box" style="flex: 1; background: var(--primary-gradient); border-radius: 24px; padding: 3rem; color: white; display: flex; justify-content: space-between; align-items: center; position: relative; overflow: hidden; box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.4);">
-                <div style="z-index: 2;">
-                    <h2 style="font-size: 2.8rem; font-weight: 900; margin-bottom: 0.5rem; letter-spacing: -1px;">Tạo Quiz Mới</h2>
-                    <p style="opacity: 0.9; margin-bottom: 2rem; font-size: 1.1rem; font-weight: 500;">Xây dựng bộ câu hỏi chuyên nghiệp của riêng bạn.</p>
-                    <button class="btn-practice glass-morphism" onclick="checkAuthAndGo('/create')" style="background: rgba(255,255,255,0.2); border: 2px solid white; color: white; width: auto; padding: 1rem 2.5rem; font-size: 1.1rem; border-radius: 15px;">Truy cập ngay</button>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 5rem;" class="animate-fade-in-up">
+            <div class="glass-card" style="padding: 2.5rem; background: var(--primary-gradient); color: white; position: relative; overflow: hidden; border: none;">
+                <div style="position: relative; z-index: 2;">
+                    <h2 style="color: white; font-size: 1.8rem; margin-bottom: 0.5rem;">Create Quiz</h2>
+                    <p style="opacity: 0.9; margin-bottom: 2rem;">Tạo bộ câu hỏi chuyên nghiệp chỉ trong tích tắc.</p>
+                    <button class="btn-secondary" onclick="checkAuthAndGo('/create')" style="background: white; border: none; color: var(--primary); padding: 0.9rem 2rem;">Bắt đầu tạo</button>
                 </div>
-                <div style="width: 250px; height: 250px; background: rgba(255,255,255,0.15); border-radius: 50%; position: absolute; right: -80px; top: -80px; backdrop-filter: blur(10px);"></div>
+                <div style="position: absolute; right: -20px; bottom: -20px; font-size: 8rem; opacity: 0.1;">✍️</div>
             </div>
-            <div class="hero-box" style="flex: 1; background: #0f172a; border-radius: 24px; padding: 3rem; color: white; display: flex; justify-content: space-between; align-items: center; position: relative; overflow: hidden; border: 2px solid rgba(139, 92, 246, 0.3);">
-                <div style="z-index: 2;">
-                    <h2 style="font-size: 2.8rem; font-weight: 900; margin-bottom: 0.5rem; letter-spacing: -1px; color: #a855f7;">Nhập vai RPG</h2>
-                    <p style="opacity: 0.8; margin-bottom: 2rem; font-size: 1.1rem; font-weight: 500;">Chế độ nhập vai (RPG) với cốt truyện rẽ nhánh.</p>
-                    <button class="btn-practice" onclick="window.location.href='/story'" style="background: linear-gradient(to right, #6366f1, #a855f7); color: white; border: none; width: auto; padding: 1rem 2.5rem; font-size: 1.1rem; border-radius: 15px; box-shadow: 0 10px 20px -5px rgba(139, 92, 246, 0.4);">CHƠI STORY MODE</button>
+            
+            <div class="glass-card" style="padding: 2.5rem; background: #0f172a; color: white; position: relative; overflow: hidden; border: none;">
+                <div style="position: relative; z-index: 2;">
+                    <h2 style="color: white; font-size: 1.8rem; margin-bottom: 0.5rem;">Story Mode</h2>
+                    <p style="opacity: 0.8; margin-bottom: 2rem;">Học tập qua cốt truyện nhập vai kịch tính.</p>
+                    <button class="btn-primary" onclick="window.location.href='/story'" style="box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4);">Khám phá ngay</button>
                 </div>
-                <div style="width: 200px; height: 200px; background: rgba(168, 85, 247, 0.1); border-radius: 20px; position: absolute; right: -40px; bottom: -40px; transform: rotate(15deg); border: 1px solid rgba(255,255,255,0.1);"></div>
+                <div style="position: absolute; right: -10px; bottom: -10px; font-size: 8rem; opacity: 0.1;">📔</div>
             </div>
         </div>
 
@@ -185,92 +325,147 @@
 
     <!-- Quiz Selection Modal -->
     <div id="quizModal" class="modal-overlay" onclick="closeModal()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-header-img" id="modalImg"></div>
-            <div class="modal-body">
-                <h2 id="modalTitle">Tên chủ đề</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;" id="modalMeta">Đang tải...</p>
+        <div class="modal-content glass-card" style="max-width: 550px; background: rgba(255,255,255,0.95); border: 1px solid white;" onclick="event.stopPropagation()">
+            <div class="modal-header-img" id="modalImg" style="height: 250px; position: relative; background-size: cover; background-position: center; border-radius: 20px 20px 0 0;">
+                <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);"></div>
+                <button onclick="closeModal()" style="position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); color: white; border-radius: 50%; width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: var(--transition);">✕</button>
+            </div>
+            <div class="modal-body" style="padding: 2.5rem; text-align: center;">
+                <h2 id="modalTitle" style="font-size: 2.2rem; font-weight: 900; margin-bottom: 0.5rem; background: var(--primary-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Tên chủ đề</h2>
+                <p style="color: var(--text-muted); font-size: 1rem; margin-bottom: 2.5rem; font-weight: 600;" id="modalMeta">Đang tải...</p>
                 
-                <div class="modal-actions">
-                    <button class="btn-practice" onclick="startPractice()">
-                        <span>▶</span> Thực hành
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <button class="btn-primary" onclick="startPractice()" style="padding: 1.2rem; justify-content: center; font-size: 1rem;">
+                        <span>▶</span> THỰC HÀNH
                     </button>
-                    <button class="btn-challenge" onclick="startChallenge()">
-                        <span>👥</span> Thách đấu bạn bè
+                    <button class="btn-secondary" onclick="startChallenge()" style="padding: 1.2rem; justify-content: center; font-size: 1rem; background: #f8fafc; border-color: #e2e8f0; color: var(--text-dark);">
+                        <span>👥</span> THÁCH ĐẤU
                     </button>
                 </div>
             </div>
-            <button onclick="closeModal()" style="position: absolute; top: 1rem; right: 1rem; background: white; border-radius: 50%; width: 30px; height: 30px; padding: 0; cursor: pointer; border: none;">✕</button>
         </div>
     </div>
 
     <script>
         let currentQuizzes = [];
         let selectedQuizId = "";
+        let currentFilter = 'All';
 
         async function loadQuizzes() {
-            const res = await fetch('/api/quizzes');
-            currentQuizzes = await res.json();
-            renderCategories();
+            // Hiển thị ngay từ cache nếu có
+            const cached = localStorage.getItem('quizzes_cache');
+            if (cached) {
+                currentQuizzes = JSON.parse(cached);
+                renderCategories(currentFilter);
+            }
+
+            try {
+                const res = await fetch('/api/quizzes');
+                if (!res.ok) throw new Error("API Error");
+                let freshData = await res.json();
+
+                // Chỉ lưu thông tin cần thiết vào cache để tránh lỗi QuotaExceeded
+                const cacheData = freshData.map(q => ({
+                    id: q.id,
+                    title: q.title,
+                    category: q.category,
+                    thumbnail: q.thumbnail,
+                    questionCount: q.questions ? q.questions.length : 0,
+                    creatorName: q.creatorName
+                }));
+                
+                if (JSON.stringify(freshData) !== JSON.stringify(currentQuizzes)) {
+                    currentQuizzes = freshData;
+                    try {
+                        localStorage.setItem('quizzes_cache', JSON.stringify(cacheData));
+                    } catch (quotaError) {
+                        console.warn("Storage quota exceeded, keeping partial cache...");
+                        localStorage.setItem('quizzes_cache', JSON.stringify(cacheData.slice(0, 10))); // Lưu tạm 10 cái mới nhất
+                    }
+                    renderCategories(currentFilter);
+                }
+            } catch (e) {
+                console.error("Lỗi fetch quiz:", e);
+                if (!currentQuizzes || currentQuizzes.length === 0) {
+                    document.getElementById('categoriesContainer').innerHTML = 
+                        `<div style="text-align: center; padding: 5rem; opacity: 0.5;">Không thể kết nối máy chủ. Vui lòng thử lại.</div>`;
+                }
+            }
+        }
+
+        function filterQuizzes(category, element) {
+            currentFilter = category;
+            document.querySelectorAll('.cat-btn').forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+            renderCategories(category);
+        }
+
+        function handleSearch(query) {
+            renderCategories(currentFilter, query);
         }
 
         function renderCategories(filter = 'All', searchQuery = '') {
             const container = document.getElementById('categoriesContainer');
+            if (!container) return;
             
-            let filteredQuizzes = currentQuizzes;
+            let filteredQuizzes = currentQuizzes || [];
             
-            // Lọc theo danh mục (không phân biệt hoa thường)
+            // Lọc theo danh mục
             if (filter !== 'All') {
                 filteredQuizzes = filteredQuizzes.filter(q => 
-                    q.category && q.category.toLowerCase().trim() === filter.toLowerCase().trim()
+                    q.category && q.category.toLowerCase() === filter.toLowerCase()
                 );
             }
             
-            // Lọc theo tìm kiếm
+            // Lọc tìm kiếm
             if (searchQuery) {
-                const query = searchQuery.toLowerCase().trim();
-                filteredQuizzes = filteredQuizzes.filter(q => 
-                    (q.title && q.title.toLowerCase().includes(query)) || 
-                    (q.category && q.category.toLowerCase().includes(query))
+                const q = searchQuery.toLowerCase();
+                filteredQuizzes = filteredQuizzes.filter(quiz => 
+                    (quiz.title && quiz.title.toLowerCase().includes(q)) ||
+                    (quiz.category && quiz.category.toLowerCase().includes(q))
                 );
             }
-            
-            const categories = [...new Set(filteredQuizzes.map(q => q.category))];
+
             container.innerHTML = "";
 
-            if (categories.length === 0) {
-                container.innerHTML = `<div style='text-align: center; margin-top: 5rem; animation: fadeIn 0.8s ease;'>
-                    <p style='color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem;'>
-                        ${searchQuery ? `Không tìm thấy kết quả cho "${searchQuery}"` : (filter === 'All' ? 'Chưa có bộ câu hỏi nào được xuất bản.' : 'Không tìm thấy bộ câu hỏi nào trong danh mục này.')}
-                    </p>
-                    <button class='btn-practice' onclick='checkAuthAndGo("/create")' style='background: var(--primary-gradient); color: white; border: none; padding: 1rem 2rem; border-radius: 12px; font-weight: 700; cursor: pointer; display: inline-block;'>
-                        Trở thành người đầu tiên tạo Quiz
-                    </button>
+            if (filteredQuizzes.length === 0) {
+                container.innerHTML = `<div style="text-align: center; padding: 5rem; color: var(--text-muted); font-weight: 500;">
+                    ${searchQuery ? `Không thấy kết quả cho "${searchQuery}"` : 'Chưa có thử thách nào.'}
                 </div>`;
                 return;
             }
 
+            // Group by category
+            const categories = [...new Set(filteredQuizzes.map(q => q.category || 'Chưa phân loại'))];
+            
             categories.forEach(cat => {
-                const catQuizzes = filteredQuizzes.filter(q => q.category === cat);
-                const section = document.createElement('section');
-                section.className = 'category-section animate-fade-in';
+                const quizInCat = filteredQuizzes.filter(q => (q.category || 'Chưa phân loại') === cat);
+                if (quizInCat.length === 0) return;
+
+                const section = document.createElement('div');
+                section.className = 'category-section animate-fade-in-up';
                 section.innerHTML = `
                     <div class="category-header">
-                        <h2 class="category-title">⭐ ${cat}</h2>
-                        <a href="#" class="btn-view-more">Xem thêm</a>
+                        <h2 class="category-name">${cat}</h2>
+                        <span style="background: var(--primary-light); color: white; padding: 0.5rem 1.2rem; border-radius: 99px; font-size: 0.85rem; font-weight: 800; box-shadow: var(--shadow-sm);">${quizInCat.length} Quiz</span>
                     </div>
                     <div class="quiz-grid">
-                        ${catQuizzes.map(q => `
+                        ${quizInCat.map(q => `
                             <div class="quiz-card" onclick="openQuiz('${q.id}')">
-                                <div class="card-img" style="background: url('${q.thumbnail || 'https://placehold.co/400x300'}') center/cover;"></div>
-                                <div class="card-info">
-                                    <div class="card-meta">
-                                        <span class="meta-count">${q.questions?.length || 0} Qs</span>
-                                    </div>
-                                    <h4 style="font-size: 1rem; margin-bottom: 0.5rem; font-weight: 800;">${q.title}</h4>
-                                    <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; opacity: 0.7;">
-                                        <span style="color: #f59e0b;">5.0 ⭐</span>
-                                        <span>By ${q.creatorName || 'Anonymous'}</span>
+                                <div class="quiz-thumbnail" style="background-image: url('${q.thumbnail || 'https://images.unsplash.com/photo-1606326666700-481c058e74a?w=400&q=80'}')">
+                                    <div class="quiz-badge">${q.category || 'General'}</div>
+                                </div>
+                                <div class="quiz-content">
+                                    <h3 class="quiz-title">${q.title}</h3>
+                                    <div class="quiz-info">
+                                        <div class="quiz-info-item">
+                                            <i class="fas fa-question-circle"></i>
+                                            <span>${q.questionCount || (q.questions ? q.questions.length : 0)} câu hỏi</span>
+                                        </div>
+                                        <div class="quiz-info-item">
+                                            <i class="fas fa-user"></i>
+                                            <span>${q.creatorName || 'Admin'}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -280,33 +475,6 @@
                 container.appendChild(section);
             });
         }
-
-        let currentFilter = 'All';
-        function filterQuizzes(category, element) {
-            currentFilter = category;
-            // Cập nhật UI menu danh mục
-            document.querySelectorAll('.cat-item').forEach(item => {
-                item.classList.remove('active');
-                item.style.opacity = '0.5';
-                const text = item.querySelector('span:last-child');
-                if (text) text.style.fontWeight = '700';
-            });
-            
-            element.classList.add('active');
-            element.style.opacity = '1';
-            const activeText = element.querySelector('span:last-child');
-            if (activeText) activeText.style.fontWeight = '800';
-
-            renderCategories(category, document.getElementById('pinInput').value);
-        }
-
-        function handleSearch(query) {
-            // Nếu query có vẻ là PIN (toàn số, 6 ký tự), không lọc live quá gắt hoặc để user nhấn nút Chơi ngay
-            // Nhưng để trải nghiệm tốt nhất, cứ lọc live nội dung
-            renderCategories(currentFilter, query);
-        }
-
-        const modal = document.getElementById('quizModal');
 
         function checkAuthAndGo(url) {
             if (!localStorage.getItem('userId')) {
@@ -323,7 +491,8 @@
                 document.getElementById('loginBtn').style.display = 'none';
                 document.getElementById('userProfile').style.display = 'flex';
                 document.getElementById('navUsername').innerText = user.username;
-                document.getElementById('userAvatar').src = user.profile.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}`;
+                const avatar = user.profile && user.profile.avatar ? user.profile.avatar : `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}`;
+                document.getElementById('userAvatar').src = avatar;
             }
         }
 
@@ -332,14 +501,16 @@
             window.location.reload();
         }
 
+        const modal = document.getElementById('quizModal');
+
         function openQuiz(quizId) {
             const quiz = currentQuizzes.find(q => q.id === quizId);
             if (!quiz) return;
             
             selectedQuizId = quizId;
             document.getElementById('modalTitle').innerText = quiz.title;
-            document.getElementById('modalImg').style.backgroundImage = `url('${quiz.thumbnail}')`;
-            document.getElementById('modalMeta').innerText = `Số câu hỏi: ${quiz.questions.length} | Danh mục: ${quiz.category}`;
+            document.getElementById('modalImg').style.backgroundImage = `url('${quiz.thumbnail || 'https://placehold.co/600x400?text=Quiz'}')`;
+            document.getElementById('modalMeta').innerText = `Số câu hỏi: ${quiz.questions ? quiz.questions.length : 0} | Danh mục: ${quiz.category || 'Chung'}`;
             
             modal.style.display = 'flex';
             setTimeout(() => modal.classList.add('active'), 10);
@@ -351,19 +522,18 @@
         }
 
         function startPractice() {
-            // Find selected quiz data to pass to game.html
             const quiz = currentQuizzes.find(q => q.id === selectedQuizId);
             localStorage.setItem('currentQuiz', JSON.stringify(quiz));
             window.location.href = '/game';
         }
 
         function startChallenge() {
-            window.location.href = `lobby.html?quizId=${selectedQuizId}`;
+            window.location.href = `/lobby.html?quizId=${selectedQuizId}`;
         }
 
         function joinRoom() {
             const pin = document.getElementById('pinInput').value;
-            if (pin) window.location.href = `lobby.html?pin=${pin}`;
+            if (pin) window.location.href = `/lobby.html?pin=${pin}`;
         }
 
         window.onclick = function(event) {

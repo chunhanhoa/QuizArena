@@ -15,12 +15,13 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AIService {
 
-    @Value("${groq.api.key}")
-    private String apiKey;
+    @Value("${groq.api.keys}")
+    private String[] apiKeys;
 
     @Value("${groq.api.url}")
     private String apiUrl;
 
+    private int currentKeyIndex = 0;
     private final RestTemplate restTemplate = new RestTemplate();
 
     public List<Question> generateQuestions(String topic, int count) {
@@ -33,43 +34,60 @@ public class AIService {
                         "LƯU Ý QUAN TRỌNG: Tất cả nội dung văn bản (các trường 'content', 'text', 'explanation') BẮT BUỘC phải là tiếng Việt. Cung cấp DUY NHẤT mã JSON array, không kèm theo bất kỳ văn bản giải thích nào khác bên ngoài.",
                 count, topic);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(apiKey);
+        // Thử lần lượt các key nếu có lỗi
+        int startKeyIndex = currentKeyIndex;
+        for (int i = 0; i < apiKeys.length; i++) {
+            int attemptIndex = (startKeyIndex + i) % apiKeys.length;
+            String cleanKey = apiKeys[attemptIndex].trim();
 
-        Map<String, Object> body = Map.of(
-                "model", "llama-3.3-70b-versatile",
-                "messages", List.of(
-                        Map.of("role", "system", "content",
-                                "Bạn là một chuyên gia tạo câu hỏi trắc nghiệm. Nhiệm vụ của bạn là luôn luôn phản hồi bằng TIẾNG VIỆT chính xác, chuyên nghiệp."),
-                        Map.of("role", "user", "content", prompt)),
-                "temperature", 0.7);
+            System.out.println("AI Generation Attempt with key index: " + attemptIndex);
 
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", "Bearer " + cleanKey);
 
-        try {
-            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
-                    apiUrl,
-                    HttpMethod.POST,
-                    entity,
-                    new org.springframework.core.ParameterizedTypeReference<Map<String, Object>>() {
-                    });
+            Map<String, Object> body = Map.of(
+                    "model", "llama-3.3-70b-versatile",
+                    "messages", List.of(
+                            Map.of("role", "system", "content",
+                                    "Bạn là một chuyên gia tạo câu hỏi trắc nghiệm. Nhiệm vụ của bạn là luôn luôn phản hồi bằng TIẾNG VIỆT chính xác, chuyên nghiệp."),
+                            Map.of("role", "user", "content", prompt)),
+                    "temperature", 0.7);
 
-            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-                @SuppressWarnings("unchecked")
-                List<Map<String, Object>> choices = (List<Map<String, Object>>) response.getBody().get("choices");
-                @SuppressWarnings("unchecked")
-                Map<String, Object> message = (Map<String, Object>) choices.get(0).get("message");
-                String content = (String) message.get("content");
+            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
 
-                // Clean content if AI includes markdown code blocks
-                content = content.replaceAll("```json", "").replaceAll("```", "").trim();
+            try {
+                ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+                        apiUrl,
+                        HttpMethod.POST,
+                        entity,
+                        new org.springframework.core.ParameterizedTypeReference<Map<String, Object>>() {
+                        });
 
-                return parseJsonToQuestions(content);
+                if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+                    @SuppressWarnings("unchecked")
+                    List<Map<String, Object>> choices = (List<Map<String, Object>>) response.getBody().get("choices");
+                    @SuppressWarnings("unchecked")
+                    Map<String, Object> message = (Map<String, Object>) choices.get(0).get("message");
+                    String content = (String) message.get("content");
+
+                    content = content.replaceAll("```json", "").replaceAll("```", "").trim();
+
+                    // Lưu lại index key thành công để dùng cho lần sau
+                    currentKeyIndex = attemptIndex;
+                    return parseJsonToQuestions(content);
+                }
+            } catch (org.springframework.web.client.HttpClientErrorException e) {
+                System.err.println("Groq API Key " + attemptIndex + " failed: " + e.getStatusCode());
+                if (e.getStatusCode() == HttpStatus.UNAUTHORIZED || e.getStatusCode() == HttpStatus.TOO_MANY_REQUESTS) {
+                    System.err.println("Switching to next key...");
+                    continue; // Thử key tiếp theo
+                }
+                break; // Lỗi khác (ví dụ: Bad Request) thì dừng luôn
+            } catch (Exception e) {
+                System.err.println("Unexpected error with Groq API: " + e.getMessage());
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            System.err.println("Error calling Groq API: " + e.getMessage());
-            e.printStackTrace();
         }
 
         return new ArrayList<>();

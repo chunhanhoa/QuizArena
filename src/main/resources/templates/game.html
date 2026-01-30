@@ -9,199 +9,200 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&display=swap" rel="stylesheet">
     <style>
-        .game-container {
-            max-width: 900px;
-            margin: 2rem auto;
-            position: relative;
-        }
-
-        .timer-bar {
-            width: 100%;
-            height: 8px;
-            background: var(--glass-border);
-            border-radius: 4px;
+        body {
+            background: var(--bg-darker);
+            color: white;
+            height: 100vh;
             overflow: hidden;
-            margin-bottom: 3rem;
         }
 
-        #timerProgress {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to right, var(--secondary), var(--accent));
-            transition: width 1s linear;
-        }
-
-        .question-box {
-            text-align: center;
+        .game-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 3rem;
+            height: 100vh;
             padding: 3rem;
-            margin-bottom: 2rem;
-            min-height: 200px;
+        }
+
+        .question-area {
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
         }
 
-        .options-grid {
+        .question-text {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 3rem;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .options-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
         }
 
         .game-option {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            padding: 1.5rem;
-            border-radius: 16px;
-            font-size: 1.25rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.8rem;
+            border-radius: 20px;
+            font-size: 1.2rem;
             font-weight: 700;
-            text-align: left;
-            transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            color: white;
+            gap: 1.2rem;
             cursor: pointer;
+            transition: var(--transition-bounce);
+            position: relative;
+            overflow: hidden;
+            color: white !important;
         }
-
-        .option-a { background: #e21b3c; border-color: #e21b3c; } /* Red */
-        .option-b { background: #1368ce; border-color: #1368ce; } /* Blue */
-        .option-c { background: #d89e00; border-color: #d89e00; } /* Yellow */
-        .option-d { background: #26890c; border-color: #26890c; } /* Green */
 
         .game-option:hover {
-            filter: brightness(1.1);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
+        .option-indicator {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Distinct Colors for Options */
+        .opt-a .option-indicator { background: #ef4444; }
+        .opt-b .option-indicator { background: #3b82f6; }
+        .opt-c .option-indicator { background: #f59e0b; }
+        .opt-d .option-indicator { background: #10b981; }
+
         .game-option.correct {
-            background: #10b981 !important;
-            border-color: #10b981 !important;
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+            background: rgba(16, 185, 129, 0.2);
+            border-color: #10b981;
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
         }
 
         .game-option.wrong {
-            background: #ef4444 !important;
-            border-color: #ef4444 !important;
-            opacity: 0.7;
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+            opacity: 0.6;
         }
 
-        .live-leaderboard {
-            position: fixed;
-            right: 2rem;
-            top: 2rem;
-            width: 280px;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .media-area {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
         }
 
-        .leaderboard-title {
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            font-weight: 800;
-            color: #f9c46b;
-            margin-bottom: 1.5rem;
-            text-align: center;
+        .question-media {
+            width: 100%;
+            aspect-ratio: 16/10;
+            background: rgba(255,255,255,0.05);
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.1);
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .leaderboard-panel {
+            flex: 1;
+            background: rgba(255,255,255,0.03);
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
         }
 
         .leaderboard-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 1rem;
-            padding: 0.8rem 1rem;
-            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            background: rgba(255,255,255,0.02);
             border-radius: 12px;
-            transition: all 0.3s ease;
+            margin-bottom: 0.8rem;
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
         .leaderboard-item.me {
-            border: 2px solid #f9c46b;
-            background: rgba(249, 196, 107, 0.1);
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--primary-light);
         }
 
-        .rank {
-            font-weight: 900;
-            font-size: 1.1rem;
-            width: 25px;
-            color: rgba(255, 255, 255, 0.5);
+        .timer-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.05);
+            z-index: 1000;
         }
 
-        .score-popup {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 5rem;
-            font-weight: 800;
-            opacity: 0;
-            pointer-events: none;
-            z-index: 10;
-        }
-
-        @keyframes scoreAnim {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-            50% { opacity: 1; transform: translate(-50%, -100%) scale(1.2); }
-            100% { opacity: 0; transform: translate(-50%, -150%) scale(1); }
+        #timerProgress {
+            height: 100%;
+            background: var(--primary-gradient);
+            width: 100%;
+            transition: width 1s linear;
+            box-shadow: 0 0 15px var(--primary-light);
         }
     </style>
 </head>
-<body style="background: #122b30; color: white; overflow: hidden;">
-    <div class="container" style="max-width: 1200px; padding: 4rem; margin: 0 auto; transition: all 0.3s ease;">
-        <div style="display: flex; gap: 4rem; align-items: flex-start;">
-            <!-- Left: Question & Options -->
-            <div style="flex: 1;">
-                <h2 id="questionText" style="font-size: 2rem; margin-bottom: 3rem; line-height: 1.4; font-weight: 800;">Đang tải câu hỏi...</h2>
-                
-                <div id="optionsGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                    <!-- Options buttons will be injected here -->
-                </div>
+<body>
+    <div class="timer-container">
+        <div id="timerProgress"></div>
+    </div>
 
-                <!-- Explanation Box -->
-                <div id="explanationBox" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; border-radius: 8px; font-size: 1rem; color: #93c5fd; line-height: 1.5; text-align: left;">
-                    <!-- AI Explanation here -->
-                </div>
-
-
-                <!-- Timer / Progress -->
-                <div style="margin-top: 4rem; display: flex; align-items: center; gap: 1rem;">
-                    <div style="flex: 1; height: 12px; background: rgba(255,255,255,0.1); border-radius: 6px; overflow: hidden;">
-                        <div id="timerProgress" style="width: 100%; height: 100%; background: linear-gradient(to right, #31d8a4, #f9c46b); transition: width 1s linear;"></div>
-                    </div>
-                    <div style="text-align: right;">
-                        <div style="font-size: 0.8rem; opacity: 0.6; font-weight: 600;">SCORE</div>
-                        <span id="myScore" style="font-size: 2rem; font-weight: 900; color: #f9c46b;">0</span>
-                    </div>
-                </div>
+    <main class="game-layout">
+        <!-- Cột trái: Câu hỏi và Đáp án -->
+        <section class="question-area animate-fade-in-up">
+            <div id="questionText" class="question-text">Đang tải thử thách tiếp theo...</div>
+            
+            <div id="optionsGrid" class="options-container">
+                <!-- Nút đáp án sẽ được JS inject vào đây -->
             </div>
 
-            <!-- Right: Image -->
-            <div id="imageBox" style="width: 500px;">
-                <div id="questionImage" style="width: 100%; height: 350px; background: url('https://placehold.co/600x400/8854c0/white?text=Question+Image') center/cover; border-radius: 20px; border: 4px solid rgba(255,255,255,0.1); box-shadow: 0 20px 40px rgba(0,0,0,0.3);"></div>
+            <!-- Giải thích từ AI (nếu có) -->
+            <div id="explanationBox" style="display: none; margin-top: 2rem; padding: 1.5rem; background: rgba(59, 130, 246, 0.1); border-radius: 16px; border-left: 4px solid var(--primary-light); color: var(--text-light);">
             </div>
-        </div>
+        </section>
+
+        <!-- Cột phải: Media và Leaderboard -->
+        <aside class="media-area">
+            <div class="question-media" id="imageBox">
+                <div id="questionImage" style="width: 100%; height: 100%; background: url('https://placehold.co/600x400/0f172a/white?text=Waiting...') center/cover; transition: var(--transition);"></div>
+            </div>
+
+            <div class="leaderboard-panel animate-fade-in-up" style="animation-delay: 0.2s;">
+                <h3 style="color: var(--accent); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                    Bảng Xếp Hạng 🏁
+                    <span id="myScore" style="color: white; font-size: 1.2rem; font-weight: 900;">0</span>
+                </h3>
+                <div id="leaderboardList" style="overflow-y: auto; flex: 1; padding-right: 0.5rem;">
+                    <!-- Ranking items -->
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Power-ups Bar -->
+    <div id="powerups" style="position: fixed; left: 2rem; bottom: 2rem; display: flex; gap: 1rem; z-index: 100;">
+        <div class="powerup-btn" onclick="usePowerup('5050')" title="50/50" style="width: 50px; height: 50px; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #ef4444; font-weight: 900; backdrop-filter: blur(10px);">½</div>
+        <div class="powerup-btn" onclick="usePowerup('freeze')" title="Freeze" style="width: 50px; height: 50px; background: rgba(59, 130, 246, 0.2); border: 1px solid #3b82f6; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem; backdrop-filter: blur(10px);">❄️</div>
+        <div class="powerup-btn" onclick="usePowerup('x2')" title="Double Points" style="width: 50px; height: 50px; background: rgba(245, 158, 11, 0.2); border: 1px solid #f59e0b; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #f59e0b; font-weight: 900; backdrop-filter: blur(10px);">x2</div>
     </div>
 
-    <div id="scorePopup" class="score-popup" style="color: #f9c46b; text-shadow: 0 0 30px rgba(249,196,107,0.5);">+100</div>
-
-    <!-- Live Leaderboard (Mới) -->
-    <div class="live-leaderboard">
-        <div class="leaderboard-title">Bảng xếp hạng</div>
-        <div id="leaderboardList">
-            <!-- Ranking items here -->
-        </div>
-    </div>
-
-    <!-- Power-ups Side Bar (Mới) -->
-    <div id="powerups" style="position: fixed; left: 2rem; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 1rem; z-index: 100;">
-        <div class="powerup-btn" onclick="usePowerup('5050')" title="50/50: Loại bỏ 2 đáp án sai" style="width: 50px; height: 50px; background: #ef4444; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: 800; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">½</div>
-        <div class="powerup-btn" onclick="usePowerup('freeze')" title="Freeze: Dừng thời gian" style="width: 50px; height: 50px; background: #3b82f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">❄️</div>
-        <div class="powerup-btn" onclick="usePowerup('x2')" title="Double: Nhân đôi số điểm" style="width: 50px; height: 50px; background: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: 800; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">x2</div>
-    </div>
+    <div id="scorePopup" class="score-popup" style="color: var(--accent); position: fixed; top: 20%; left: 50%; transform: translateX(-50%); pointer-events: none; font-size: 4rem; font-weight: 900; opacity: 0; z-index: 2000;">+0</div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>

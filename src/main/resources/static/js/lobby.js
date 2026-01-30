@@ -62,12 +62,7 @@ function joinRoom(pin, username) {
 
 
 function setupLobby(room) {
-    document.getElementById('roomPin').innerText = room.pin.match(/.{1,3}/g).join(' ');
-    
-    // QR Code với link tham gia trực tiếp
-    const joinLink = `${window.location.origin}/lobby.html?pin=${room.pin}`;
-    const qrImg = document.getElementById('roomQr');
-    if (qrImg) qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(joinLink)}`;
+    document.getElementById('roomPin').innerText = room.pin; // Hiện thẳng mã PIN, không chia khoảng trắng
     
     connect(room.pin);
     renderPlayers(room.players);
@@ -82,9 +77,8 @@ function setupLobby(room) {
 
 function copyInviteLink() {
     if (!currentRoom) return;
-    const joinLink = `${window.location.origin}/lobby.html?pin=${currentRoom.pin}`;
-    navigator.clipboard.writeText(joinLink).then(() => {
-        alert("Đã sao chép link mời vào bộ nhớ tạm!");
+    navigator.clipboard.writeText(currentRoom.pin).then(() => {
+        alert("Đã sao chép mã PIN vào bộ nhớ tạm!");
     });
 }
 
