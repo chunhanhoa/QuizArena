@@ -167,7 +167,7 @@
             </div>
         </div>
 
-        <button class="auth-btn" onclick="handleAuth()" id="authBtn">Vào Đấu Trường 🚀</button>
+        <button class="auth-btn" onclick="handleAuth()" id="authBtn">Vào Đấu Trường </button>
         
         <div class="toggle-text">
             <span id="toggleQuestion">Chưa có tài khoản?</span> 
@@ -184,7 +184,7 @@
             isLogin = !isLogin;
             document.getElementById('authTitle').innerText = isLogin ? 'Chào mừng!' : 'Tham gia cùng chúng tôi';
             document.getElementById('emailGroup').style.display = isLogin ? 'none' : 'block';
-            document.getElementById('authBtn').innerText = isLogin ? 'Vào Đấu Trường 🚀' : 'Đăng Ký Thành Viên ✨';
+            document.getElementById('authBtn').innerText = isLogin ? 'Vào Đấu Trường' : 'Đăng Ký Thành Viên ';
             document.getElementById('toggleQuestion').innerText = isLogin ? 'Chưa có tài khoản?' : 'Đã có tài khoản?';
             document.getElementById('toggleText').innerText = isLogin ? 'Đăng ký ngay' : 'Đăng nhập';
             document.getElementById('errorMsg').style.display = 'none';
