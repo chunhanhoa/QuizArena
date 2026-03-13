@@ -26,6 +26,7 @@ public class GameRoom {
     private long timerEndTime;
     private int totalQuestions;
     private List<String> frozenUserIds; // User IDs who are skipped for the current turn
+    private java.util.Date lastActiveAt;
 
     @Data
     @NoArgsConstructor

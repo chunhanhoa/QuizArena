@@ -41,6 +41,7 @@ public class GameRoomController {
                 .quizId(quizId)
                 .players(players)
                 .status("WAITING")
+                .lastActiveAt(new Date())
                 .build();
         return ResponseEntity.ok(gameRoomRepository.save(room));
     }
@@ -65,6 +66,7 @@ public class GameRoomController {
             if (!exists) {
                 GameRoom.Player player = new GameRoom.Player(userId, username, 0, true);
                 room.getPlayers().add(player);
+                room.setLastActiveAt(new Date());
                 gameRoomRepository.save(room);
             }
             messagingTemplate.convertAndSend("/topic/room/" + pin, room);
@@ -86,6 +88,7 @@ public class GameRoomController {
                     room.setTotalQuestions(quiz.getQuestions().size());
                     room.setFrozenUserIds(new ArrayList<>());
                     room.setTimerEndTime(System.currentTimeMillis() + 10000);
+                    room.setLastActiveAt(new Date());
                     gameRoomRepository.save(room);
 
                     messagingTemplate.convertAndSend("/topic/room/" + pin, room);
@@ -105,11 +108,13 @@ public class GameRoomController {
                     room.setCurrentQuestionIndex(room.getCurrentQuestionIndex() + 1);
                     room.setTimerEndTime(System.currentTimeMillis() + 10000);
                     room.setFrozenUserIds(new ArrayList<>()); // Reset frozen status for next turn
+                    room.setLastActiveAt(new Date());
                     gameRoomRepository.save(room);
                     messagingTemplate.convertAndSend("/topic/room/" + pin, room);
                     scheduleNextTurn(pin, 10);
                 } else {
                     room.setStatus("FINISHED");
+                    room.setLastActiveAt(new Date());
                     gameRoomRepository.save(room);
                     messagingTemplate.convertAndSend("/topic/room/" + pin, room);
                     roomTimers.remove(pin);
@@ -133,6 +138,7 @@ public class GameRoomController {
                 if (room.getFrozenUserIds() == null)
                     room.setFrozenUserIds(new ArrayList<>());
                 room.getFrozenUserIds().add(target.getUserId());
+                room.setLastActiveAt(new Date());
                 gameRoomRepository.save(room);
                 messagingTemplate.convertAndSend("/topic/room/" + pin, room);
             }
@@ -150,6 +156,7 @@ public class GameRoomController {
                         .filter(p -> p.getUserId().equals(userId))
                         .findFirst()
                         .ifPresent(p -> p.setScore(score));
+                room.setLastActiveAt(new Date());
                 gameRoomRepository.save(room);
                 messagingTemplate.convertAndSend("/topic/room/" + pin, room);
             }
