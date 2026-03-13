@@ -232,48 +232,67 @@
         }
 
         async function saveQuiz() {
+            const title = document.getElementById('quizTitle').value.trim();
+            const category = document.getElementById('quizCategory').value.trim();
+            const thumbnailPreview = document.getElementById('quizThumbnailPreview');
             const thumbnailFile = document.getElementById('quizThumbnailFile').files[0];
-            let thumbnail = document.getElementById('quizThumbnailPreview').src;
+            
+            // Validation
+            if (!title) return alert("Vui lòng nhập tiêu đề bộ câu hỏi!");
+            if (!category) return alert("Vui lòng nhập hoặc chọn danh mục!");
+            if (!thumbnailFile && (!thumbnailPreview.src || thumbnailPreview.style.display === 'none')) {
+                return alert("Vui lòng tải lên ảnh bìa cho bộ câu hỏi!");
+            }
+
+            let thumbnail = thumbnailPreview.src;
             if (thumbnailFile) {
                 thumbnail = await toBase64(thumbnailFile);
             }
 
-            const quiz = {
-                title: document.getElementById('quizTitle').value,
-                category: document.getElementById('quizCategory').value,
-                thumbnail: thumbnail,
-                creatorId: currentUser.id,
-                creatorName: currentUser.username,
-                questions: []
-            };
-
-            if(!quiz.title) return alert("Vui lòng nhập tiêu đề!");
-
             const questionCards = document.querySelectorAll('.question-card');
-            for (let card of questionCards) {
+            if (questionCards.length === 0) return alert("Bộ câu hỏi phải có ít nhất một câu!");
+
+            const questions = [];
+            for (let [index, card] of questionCards.entries()) {
+                const qText = card.querySelector('.q-text').value.trim();
+                if (!qText) return alert(`Vui lòng nhập nội dung cho câu hỏi số ${index + 1}!`);
+
                 const options = [];
-                card.querySelectorAll('.option-item').forEach((opt, oIdx) => {
+                const optInputs = card.querySelectorAll('.opt-text');
+                for (let [oIdx, opt] of optInputs.entries()) {
+                    const optText = opt.value.trim();
+                    if (!optText) return alert(`Vui lòng điền nội dung cho đáp án ${String.fromCharCode(65 + oIdx)} của câu hỏi ${index + 1}!`);
+                    
                     options.push({
-                        text: opt.querySelector('.opt-text').value,
-                        isCorrect: opt.querySelector('input[type="radio"]').checked
+                        text: optText,
+                        isCorrect: card.querySelectorAll('input[type="radio"]')[oIdx].checked
                     });
-                });
+                }
 
                 const qImgFile = card.querySelector('.q-img-file').files[0];
                 const previewImg = card.querySelector('.preview-img');
-                let qImg = previewImg ? previewImg.src : '';
+                let qImg = previewImg && previewImg.style.display !== 'none' ? previewImg.src : '';
                 if (qImgFile) {
                     qImg = await toBase64(qImgFile);
                 }
 
-                quiz.questions.push({
-                    content: card.querySelector('.q-text').value,
+                questions.push({
+                    content: qText,
                     imageUrl: qImg,
                     options: options,
                     type: 'multiple-choice',
                     timeLimit: 10
                 });
             }
+
+            const quiz = {
+                title: title,
+                category: category,
+                thumbnail: thumbnail,
+                creatorId: currentUser.id,
+                creatorName: currentUser.username,
+                questions: questions
+            };
 
             try {
                 const res = await fetch('/api/quizzes', {
