@@ -238,7 +238,7 @@
     </style>
 </head>
 <body>
-    <nav class="glass-card" style="position: sticky; top: 1.5rem; z-index: 1000; margin: 1.5rem 5% 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;">
+    <nav class="glass-card" style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; margin: 0; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; border-radius: 0; border-top: none; border-left: none; border-right: none; background: rgba(255, 255, 255, 0.8);">
         <div class="logo" style="cursor: pointer; font-size: 1.8rem; font-weight: 900; letter-spacing: -1.5px; color: var(--bg-dark);" onclick="window.location.reload()">
             QUIZ<span style="color: var(--primary);">ARENA</span>
         </div>
@@ -260,7 +260,7 @@
     <div class="hero-section">
         <div class="container hero-grid">
             <div class="hero-content animate-fade-in-up">
-                <span style="background: rgba(99, 102, 241, 0.1); color: var(--primary); padding: 0.5rem 1rem; border-radius: 100px; font-weight: 800; font-size: 0.85rem; margin-bottom: 1.5rem; display: inline-block;">✨ TRẢI NGHIỆM HỌC TẬP MỚI</span>
+                <span style="background: rgba(99, 102, 241, 0.1); color: var(--primary); padding: 0.5rem 1rem; border-radius: 100px; font-weight: 800; font-size: 0.85rem; margin-bottom: 1.5rem; display: inline-block;"> TRẢI NGHIỆM HỌC TẬP MỚI</span>
                 <h1 style="font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 1.5rem;">Quiz Arena<br><span style="background: var(--primary-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;"></span></h1>
                 <p style="font-size: 1.2rem; color: var(--text-light); max-width: 500px;">Khám phá hàng ngàn bộ câu hỏi thông minh hoặc tự tạo thử thách của riêng bạn với sự trợ giúp của AI.</p>
                 
@@ -295,7 +295,6 @@
             <button class="cat-btn" onclick="filterQuizzes('Nghệ thuật', this)"><span>🎨</span> Nghệ thuật</button>
             <button class="cat-btn" onclick="filterQuizzes('Địa lý', this)"><span>🌍</span> Địa lý</button>
             <button class="cat-btn" onclick="filterQuizzes('Thể thao', this)"><span>🏀</span> Thể thao</button>
-            <button class="cat-btn" onclick="filterQuizzes('Khoa học', this)"><span>🧬</span> Khoa học</button>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 5rem;" class="animate-fade-in-up">
