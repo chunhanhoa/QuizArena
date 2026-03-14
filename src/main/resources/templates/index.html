@@ -114,27 +114,36 @@
             gap: 1.5rem;
             overflow-x: auto;
             padding: 1rem 0.5rem 2.5rem;
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary-light) #f1f5f9;
+            scrollbar-width: none;
             scroll-behavior: smooth;
             margin-bottom: 3rem;
             scroll-snap-type: x mandatory;
         }
         
-        /* Hide scrollbar for cleaner look if desired, or keep for UX */
+        /* Hide scrollbar */
         .quiz-grid::-webkit-scrollbar {
-            height: 6px;
+            display: none;
         }
-        .quiz-grid::-webkit-scrollbar-track {
-            background: #f1f5f9;
-            border-radius: 10px;
+
+        .grid-nav-btn {
+            width: 36px; 
+            height: 36px; 
+            border-radius: 50%; 
+            border: 1px solid rgba(0,0,0,0.1); 
+            background: white; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: #0f172a; 
+            font-size: 1rem; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); 
+            transition: all 0.2s ease;
         }
-        .quiz-grid::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 10px;
-        }
-        .quiz-grid::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-light);
+        .grid-nav-btn:hover {
+            background: #f8fafc;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px -1px rgba(0,0,0,0.1); 
         }
 
         .quiz-card {
@@ -470,7 +479,11 @@
                 section.innerHTML = `
                     <div class="category-header">
                         <h2 class="category-name">${cat}</h2>
-                        <span style="background: var(--primary-light); color: white; padding: 0.5rem 1.2rem; border-radius: 99px; font-size: 0.85rem; font-weight: 800; box-shadow: var(--shadow-sm);">${quizInCat.length} Quiz</span>
+                        <div style="display: flex; gap: 0.8rem; align-items: center;">
+                            <button class="grid-nav-btn" aria-label="Lướt sang trái" onclick="scrollGrid(this.closest('.category-section').querySelector('.quiz-grid'), -1)">&#10094;</button>
+                            <button class="grid-nav-btn" aria-label="Lướt sang phải" onclick="scrollGrid(this.closest('.category-section').querySelector('.quiz-grid'), 1)">&#10095;</button>
+                            <span style="background: var(--primary-light, #6366f1); color: white; padding: 0.5rem 1.2rem; border-radius: 99px; font-size: 0.85rem; font-weight: 800; box-shadow: var(--shadow-sm); margin-left: 0.5rem;">${quizInCat.length} Quiz</span>
+                        </div>
                     </div>
                     <div class="quiz-grid">
                         ${quizInCat.map(q => `
@@ -557,6 +570,13 @@
         function joinRoom() {
             const pin = document.getElementById('pinInput').value;
             if (pin) window.location.href = `/lobby.html?pin=${pin}`;
+        }
+
+        function scrollGrid(gridElement, direction) {
+            if (gridElement) {
+                const itemWidth = gridElement.querySelector('.quiz-card') ? gridElement.querySelector('.quiz-card').offsetWidth + 24 : 300; 
+                gridElement.scrollBy({ left: itemWidth * direction * 2, behavior: 'smooth' });
+            }
         }
 
         window.onclick = function(event) {
