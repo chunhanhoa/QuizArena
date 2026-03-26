@@ -10,6 +10,16 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 
+// ─────────────────────────────────────────────────────────────────────────────
+// CLEANUP SERVICE: TỰ ĐỘNG DỌN PHÒNG RÁC
+//
+// Xử lý tình huống: Host tắt trình duyệt hoặc toàn bộ người chơi mất kết nối
+// mà không bấm thoát → phòng game sẽ lơ lửng trong DB mãi mãi.
+//
+// Giải pháp: Service này chạy định kỳ mỗi 5 phút, xóa các phòng không có
+// hoạt động trong 15 phút trở lên (dựa trên trường lastActiveAt).
+// lastActiveAt được cập nhật mỗi khi có action: join, start, answer, freeze...
+// ─────────────────────────────────────────────────────────────────────────────
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -17,10 +27,12 @@ public class GameRoomCleanupService {
 
     private final GameRoomRepository gameRoomRepository;
 
-    // Run every 5 minutes
+    // Chạy tự động mỗi 5 phút (300,000 ms)
     @Scheduled(fixedRate = 300000)
     public void cleanupOldRooms() {
         log.info("Starting cleanup of inactive game rooms...");
+
+        // Ngưỡng thời gian: phòng không hoạt động quá 15 phút sẽ bị xóa
         long fifteenMinutesAgo = System.currentTimeMillis() - (15 * 60 * 1000);
         Date cutoffDate = new Date(fifteenMinutesAgo);
 
@@ -28,12 +40,10 @@ public class GameRoomCleanupService {
         int deletedCount = 0;
 
         for (GameRoom room : allRooms) {
-            // If the room has no lastActiveAt (legacy), or it's older than 15 minutes
+            // Xóa phòng nếu: chưa có lastActiveAt (phòng cũ/legacy) HOẶC đã quá 15 phút không hoạt động
+            // Áp dụng cho mọi trạng thái: WAITING (chưa ai join), STARTED (đang chơi nhưng bị ngắt),
+            // hay FINISHED (đã xong nhưng không có ai dọn)
             if (room.getLastActiveAt() == null || room.getLastActiveAt().before(cutoffDate)) {
-                // We keep rooms that are currently STARTED and were active recently, 
-                // but if a room is WAITING or FINISHED and inactive, we delete it.
-                // Actually, the requirement is "if NOT USED for more than 15 mins", 
-                // so if lastActiveAt is old, we delete it regardless of status.
                 gameRoomRepository.delete(room);
                 deletedCount++;
                 log.info("Deleted inactive room with PIN: {}", room.getPin());
