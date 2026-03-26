@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,13 +8,19 @@
     <link rel="stylesheet" href="/css/index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&family=Outfit:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
-        body { font-family: 'Outfit', sans-serif; background: #fdfdfd; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #fdfdfd;
+        }
+
         .hero-section {
             padding: 6rem 0 4rem;
             background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.05), transparent),
-                        radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.05), transparent);
+                radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.05), transparent);
             position: relative;
             overflow: hidden;
         }
@@ -38,7 +45,7 @@
             padding: 0.6rem;
             border-radius: 100px;
             box-shadow: var(--shadow-lg);
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             transition: var(--transition-bounce);
         }
 
@@ -82,7 +89,7 @@
             padding: 0.8rem 1.5rem;
             background: white;
             border-radius: 100px;
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             font-weight: 700;
             color: var(--text-main);
             cursor: pointer;
@@ -119,31 +126,32 @@
             margin-bottom: 3rem;
             scroll-snap-type: x mandatory;
         }
-        
+
         /* Hide scrollbar */
         .quiz-grid::-webkit-scrollbar {
             display: none;
         }
 
         .grid-nav-btn {
-            width: 36px; 
-            height: 36px; 
-            border-radius: 50%; 
-            border: 1px solid rgba(0,0,0,0.1); 
-            background: white; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            color: #0f172a; 
-            font-size: 1rem; 
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); 
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0f172a;
+            font-size: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             transition: all 0.2s ease;
         }
+
         .grid-nav-btn:hover {
             background: #f8fafc;
             transform: translateY(-2px);
-            box-shadow: 0 6px 8px -1px rgba(0,0,0,0.1); 
+            box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.1);
         }
 
         .quiz-card {
@@ -151,11 +159,12 @@
             border-radius: 24px;
             overflow: hidden;
             transition: var(--transition-bounce);
-            border: 1px solid rgba(0,0,0,0.03);
+            border: 1px solid rgba(0, 0, 0, 0.03);
             display: flex;
             flex-direction: column;
-            height: 420px; /* Fixed height for consistency in scroll */
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+            height: 420px;
+            /* Fixed height for consistency in scroll */
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
             flex: 0 0 calc((100% - (5 * 1.5rem)) / 6);
             min-width: 250px;
             scroll-snap-align: start;
@@ -179,14 +188,14 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
         }
 
         .quiz-badge {
             position: absolute;
             top: 1rem;
             right: 1rem;
-            background: rgba(255,255,255,0.9);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
             padding: 0.5rem 1rem;
             border-radius: 12px;
@@ -261,7 +270,8 @@
             margin-left: 1rem;
         }
 
-        .cat-btn:hover, .cat-btn.active {
+        .cat-btn:hover,
+        .cat-btn.active {
             background: var(--primary-gradient);
             color: white;
             transform: translateY(-3px);
@@ -270,21 +280,30 @@
         }
     </style>
 </head>
+
 <body>
-    <nav class="glass-card" style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; margin: 0; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; border-radius: 0; border-top: none; border-left: none; border-right: none; background: rgba(255, 255, 255, 0.8);">
-        <div class="logo" style="cursor: pointer; font-size: 1.8rem; font-weight: 900; letter-spacing: -1.5px; color: var(--bg-dark);" onclick="window.location.reload()">
+    <nav class="glass-card"
+        style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; margin: 0; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; border-radius: 0; border-top: none; border-left: none; border-right: none; background: rgba(255, 255, 255, 0.8);">
+        <div class="logo"
+            style="cursor: pointer; font-size: 1.8rem; font-weight: 900; letter-spacing: -1.5px; color: var(--bg-dark);"
+            onclick="window.location.reload()">
             QUIZ<span style="color: var(--primary);">ARENA</span>
         </div>
-        
+
         <div style="display: flex; gap: 1.5rem; align-items: center;" id="navAuth">
-            <button id="loginBtn" class="btn-primary" onclick="window.location.href='/login'" style="padding: 0.6rem 1.5rem; font-size: 0.95rem;">
+            <button id="loginBtn" class="btn-primary" onclick="window.location.href='/login'"
+                style="padding: 0.6rem 1.5rem; font-size: 0.95rem;">
                 Đăng nhập
             </button>
-            <div id="userProfile" style="display: none; align-items: center; gap: 1rem; background: #f1f5f9; padding: 0.4rem 1rem; border-radius: 100px; border: 1px solid rgba(0,0,0,0.05); cursor: pointer;" onclick="window.location.href='/profile'">
+            <div id="userProfile"
+                style="display: none; align-items: center; gap: 1rem; background: #f1f5f9; padding: 0.4rem 1rem; border-radius: 100px; border: 1px solid rgba(0,0,0,0.05); cursor: pointer;"
+                onclick="window.location.href='/profile'">
                 <img id="userAvatar" src="" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
                 <div style="text-align: left;">
-                    <div id="navUsername" style="font-weight: 700; font-size: 0.85rem; color: var(--text-dark);">Username</div>
-                    <div style="font-size: 0.7rem; color: var(--danger); font-weight: 600; cursor: pointer;" onclick="logout(event)">Đăng xuất</div>
+                    <div id="navUsername" style="font-weight: 700; font-size: 0.85rem; color: var(--text-dark);">
+                        Username</div>
+                    <div style="font-size: 0.7rem; color: var(--danger); font-weight: 600; cursor: pointer;"
+                        onclick="logout(event)">Đăng xuất</div>
                 </div>
             </div>
         </div>
@@ -293,23 +312,36 @@
     <div class="hero-section">
         <div class="container hero-grid">
             <div class="hero-content animate-fade-in-up">
-                <span style="background: rgba(99, 102, 241, 0.1); color: var(--primary); padding: 0.5rem 1rem; border-radius: 100px; font-weight: 800; font-size: 0.85rem; margin-bottom: 1.5rem; display: inline-block;"> TRẢI NGHIỆM HỌC TẬP MỚI</span>
-                <h1 style="font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 1.5rem;">Quiz Arena<br><span style="background: var(--primary-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;"></span></h1>
-                <p style="font-size: 1.2rem; color: var(--text-light); max-width: 500px;">Khám phá hàng ngàn bộ câu hỏi thông minh hoặc tự tạo thử thách của riêng bạn với sự trợ giúp của AI.</p>
-                
+                <span
+                    style="background: rgba(99, 102, 241, 0.1); color: var(--primary); padding: 0.5rem 1rem; border-radius: 100px; font-weight: 800; font-size: 0.85rem; margin-bottom: 1.5rem; display: inline-block;">
+                    TRẢI NGHIỆM HỌC TẬP MỚI</span>
+                <h1 style="font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 1.5rem;">Quiz
+                    Arena<br><span
+                        style="background: var(--primary-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;"></span>
+                </h1>
+                <p style="font-size: 1.2rem; color: var(--text-light); max-width: 500px;">Khám phá hàng ngàn bộ câu hỏi
+                    thông minh hoặc tự tạo thử thách của riêng bạn với sự trợ giúp của AI.</p>
+
                 <div class="search-container">
                     <div class="search-wrapper">
-                        <input type="text" id="pinInput" placeholder="Tìm kiếm quiz hoặc nhập mã PIN..." oninput="handleSearch(this.value)">
+                        <input type="text" id="pinInput" placeholder="Tìm kiếm quiz hoặc nhập mã PIN..."
+                            oninput="handleSearch(this.value)">
                         <button class="btn-search" onclick="joinRoom()">Chơi ngay</button>
                     </div>
                 </div>
             </div>
-            
+
             <div class="hero-visual animate-float" style="position: relative;">
-                <div style="position: absolute; width: 300px; height: 300px; background: var(--primary-light); filter: blur(100px); opacity: 0.2; top: 10%; right: 10%;"></div>
-                <div class="glass-card" style="width: 100%; aspect-ratio: 1; padding: 2.5rem; transform: perspective(1000px) rotateY(-10deg) rotateX(10deg); border: 1px solid rgba(255,255,255,0.4);">
-                    <div style="width: 100%; height: 100%; border-radius: var(--radius-md); background: #f8fafc; border: 1px solid #e2e8f0; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-                        <div style="height: 40px; width: 40px; background: var(--primary-gradient); border-radius: 10px;"></div>
+                <div
+                    style="position: absolute; width: 300px; height: 300px; background: var(--primary-light); filter: blur(100px); opacity: 0.2; top: 10%; right: 10%;">
+                </div>
+                <div class="glass-card"
+                    style="width: 100%; aspect-ratio: 1; padding: 2.5rem; transform: perspective(1000px) rotateY(-10deg) rotateX(10deg); border: 1px solid rgba(255,255,255,0.4);">
+                    <div
+                        style="width: 100%; height: 100%; border-radius: var(--radius-md); background: #f8fafc; border: 1px solid #e2e8f0; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                        <div
+                            style="height: 40px; width: 40px; background: var(--primary-gradient); border-radius: 10px;">
+                        </div>
                         <div style="height: 12px; width: 60%; background: #e2e8f0; border-radius: 6px;"></div>
                         <div style="height: 12px; width: 90%; background: #e2e8f0; border-radius: 6px;"></div>
                         <div style="margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
@@ -330,23 +362,46 @@
             <button class="cat-btn" onclick="filterQuizzes('Thể thao', this)"><span>🏀</span> Thể thao</button>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 5rem;" class="animate-fade-in-up">
-            <div class="glass-card" style="padding: 2.5rem; background: var(--primary-gradient); color: white; position: relative; overflow: hidden; border: none;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 5rem;"
+            class="animate-fade-in-up">
+            <div class="glass-card"
+                style="padding: 2.5rem; background: var(--primary-gradient); color: white; position: relative; overflow: hidden; border: none;">
                 <div style="position: relative; z-index: 2;">
                     <h2 style="color: white; font-size: 1.8rem; margin-bottom: 0.5rem;">Create Quiz</h2>
                     <p style="opacity: 0.9; margin-bottom: 2rem;">Tạo bộ câu hỏi chuyên nghiệp chỉ trong tích tắc.</p>
-                    <button class="btn-secondary" onclick="checkAuthAndGo('/create')" style="background: white; border: none; color: var(--primary); padding: 0.9rem 2rem;">Bắt đầu tạo</button>
+                    <button class="btn-secondary" onclick="checkAuthAndGo('/create')"
+                        style="background: white; border: none; color: var(--primary); padding: 0.9rem 2rem;">Bắt đầu
+                        tạo</button>
                 </div>
                 <div style="position: absolute; right: -20px; bottom: -20px; font-size: 8rem; opacity: 0.1;">✍️</div>
             </div>
-            
-            <div class="glass-card" style="padding: 2.5rem; background: #0f172a; color: white; position: relative; overflow: hidden; border: none;">
+
+            <div class="glass-card"
+                style="padding: 2.5rem; background: #0f172a; color: white; position: relative; overflow: hidden; border: none;">
                 <div style="position: relative; z-index: 2;">
                     <h2 style="color: white; font-size: 1.8rem; margin-bottom: 0.5rem;">Story Mode</h2>
                     <p style="opacity: 0.8; margin-bottom: 2rem;">Học tập qua cốt truyện nhập vai kịch tính.</p>
-                    <button class="btn-primary" onclick="window.location.href='/story'" style="box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4);">Khám phá ngay</button>
+                    <button class="btn-primary" onclick="window.location.href='/story'"
+                        style="box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4);">Khám phá ngay</button>
                 </div>
                 <div style="position: absolute; right: -10px; bottom: -10px; font-size: 8rem; opacity: 0.1;">📔</div>
+            </div>
+
+            <div class="glass-card"
+                style="padding: 2.5rem; background: linear-gradient(135deg, #4c1d95, #7c3aed); color: white; position: relative; overflow: hidden; border: none;">
+                <div style="position: relative; z-index: 2;">
+                    <span
+                        style="background: rgba(255,255,255,0.15); color: white; padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">
+                        Mới</span>
+                    <h2 style="color: white; font-size: 1.8rem; margin-bottom: 0.5rem; margin-top: 0.8rem;">Community
+                        Stories</h2>
+                    <p style="opacity: 0.85; margin-bottom: 2rem;">Tự viết cốt truyện của bạn và chia sẻ với cộng đồng.
+                    </p>
+                    <button class="btn-secondary" onclick="window.location.href='/story-builder'"
+                        style="background: white; border: none; color: #7c3aed; padding: 0.9rem 2rem;">
+                        Tạo câu chuyện</button>
+                </div>
+                <div style="position: absolute; right: -10px; bottom: -10px; font-size: 8rem; opacity: 0.1;">📚</div>
             </div>
         </div>
 
@@ -357,20 +412,31 @@
 
     <!-- Quiz Selection Modal -->
     <div id="quizModal" class="modal-overlay" onclick="closeModal()">
-        <div class="modal-content glass-card" style="max-width: 550px; background: rgba(255,255,255,0.95); border: 1px solid white;" onclick="event.stopPropagation()">
-            <div class="modal-header-img" id="modalImg" style="height: 250px; position: relative; background-size: cover; background-position: center; border-radius: 20px 20px 0 0;">
-                <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);"></div>
-                <button onclick="closeModal()" style="position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); color: white; border-radius: 50%; width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: var(--transition);">✕</button>
+        <div class="modal-content glass-card"
+            style="max-width: 550px; background: rgba(255,255,255,0.95); border: 1px solid white;"
+            onclick="event.stopPropagation()">
+            <div class="modal-header-img" id="modalImg"
+                style="height: 250px; position: relative; background-size: cover; background-position: center; border-radius: 20px 20px 0 0;">
+                <div
+                    style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);">
+                </div>
+                <button onclick="closeModal()"
+                    style="position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); color: white; border-radius: 50%; width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: var(--transition);">✕</button>
             </div>
             <div class="modal-body" style="padding: 2.5rem; text-align: center;">
-                <h2 id="modalTitle" style="font-size: 2.2rem; font-weight: 900; margin-bottom: 0.5rem; background: var(--primary-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Tên chủ đề</h2>
-                <p style="color: var(--text-muted); font-size: 1rem; margin-bottom: 2.5rem; font-weight: 600;" id="modalMeta">Đang tải...</p>
-                
+                <h2 id="modalTitle"
+                    style="font-size: 2.2rem; font-weight: 900; margin-bottom: 0.5rem; background: var(--primary-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                    Tên chủ đề</h2>
+                <p style="color: var(--text-muted); font-size: 1rem; margin-bottom: 2.5rem; font-weight: 600;"
+                    id="modalMeta">Đang tải...</p>
+
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                    <button class="btn-primary" onclick="startPractice()" style="padding: 1.2rem; justify-content: center; font-size: 1rem;">
+                    <button class="btn-primary" onclick="startPractice()"
+                        style="padding: 1.2rem; justify-content: center; font-size: 1rem;">
                         <span>▶</span> THỰC HÀNH
                     </button>
-                    <button class="btn-secondary" onclick="startChallenge()" style="padding: 1.2rem; justify-content: center; font-size: 1rem; background: #f8fafc; border-color: #e2e8f0; color: var(--text-dark);">
+                    <button class="btn-secondary" onclick="startChallenge()"
+                        style="padding: 1.2rem; justify-content: center; font-size: 1rem; background: #f8fafc; border-color: #e2e8f0; color: var(--text-dark);">
                         <span>👥</span> THÁCH ĐẤU
                     </button>
                 </div>
@@ -405,7 +471,7 @@
                     questionCount: q.questions ? q.questions.length : 0,
                     creatorName: q.creatorName
                 }));
-                
+
                 if (JSON.stringify(freshData) !== JSON.stringify(currentQuizzes)) {
                     currentQuizzes = freshData;
                     try {
@@ -419,7 +485,7 @@
             } catch (e) {
                 console.error("Lỗi fetch quiz:", e);
                 if (!currentQuizzes || currentQuizzes.length === 0) {
-                    document.getElementById('categoriesContainer').innerHTML = 
+                    document.getElementById('categoriesContainer').innerHTML =
                         `<div style="text-align: center; padding: 5rem; opacity: 0.5;">Không thể kết nối máy chủ. Vui lòng thử lại.</div>`;
                 }
             }
@@ -439,20 +505,20 @@
         function renderCategories(filter = 'All', searchQuery = '') {
             const container = document.getElementById('categoriesContainer');
             if (!container) return;
-            
+
             let filteredQuizzes = currentQuizzes || [];
-            
+
             // Lọc theo danh mục
             if (filter !== 'All') {
-                filteredQuizzes = filteredQuizzes.filter(q => 
+                filteredQuizzes = filteredQuizzes.filter(q =>
                     q.category && q.category.toLowerCase() === filter.toLowerCase()
                 );
             }
-            
+
             // Lọc tìm kiếm
             if (searchQuery) {
                 const q = searchQuery.toLowerCase();
-                filteredQuizzes = filteredQuizzes.filter(quiz => 
+                filteredQuizzes = filteredQuizzes.filter(quiz =>
                     (quiz.title && quiz.title.toLowerCase().includes(q)) ||
                     (quiz.category && quiz.category.toLowerCase().includes(q))
                 );
@@ -469,7 +535,7 @@
 
             // Group by category
             const categories = [...new Set(filteredQuizzes.map(q => q.category || 'Chưa phân loại'))];
-            
+
             categories.forEach(cat => {
                 const quizInCat = filteredQuizzes.filter(q => (q.category || 'Chưa phân loại') === cat);
                 if (quizInCat.length === 0) return;
@@ -534,7 +600,7 @@
         }
 
         function logout(event) {
-            if(event) event.stopPropagation();
+            if (event) event.stopPropagation();
             localStorage.clear();
             window.location.reload();
         }
@@ -544,12 +610,12 @@
         function openQuiz(quizId) {
             const quiz = currentQuizzes.find(q => q.id === quizId);
             if (!quiz) return;
-            
+
             selectedQuizId = quizId;
             document.getElementById('modalTitle').innerText = quiz.title;
             document.getElementById('modalImg').style.backgroundImage = `url('${quiz.thumbnail || 'https://placehold.co/600x400?text=Quiz'}')`;
             document.getElementById('modalMeta').innerText = `Số câu hỏi: ${quiz.questions ? quiz.questions.length : 0} | Danh mục: ${quiz.category || 'Chung'}`;
-            
+
             modal.style.display = 'flex';
             setTimeout(() => modal.classList.add('active'), 10);
         }
@@ -576,12 +642,12 @@
 
         function scrollGrid(gridElement, direction) {
             if (gridElement) {
-                const itemWidth = gridElement.querySelector('.quiz-card') ? gridElement.querySelector('.quiz-card').offsetWidth + 24 : 300; 
+                const itemWidth = gridElement.querySelector('.quiz-card') ? gridElement.querySelector('.quiz-card').offsetWidth + 24 : 300;
                 gridElement.scrollBy({ left: itemWidth * direction * 2, behavior: 'smooth' });
             }
         }
 
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (event.target == modal) closeModal();
         }
 
@@ -589,4 +655,5 @@
         loadQuizzes();
     </script>
 </body>
+
 </html>

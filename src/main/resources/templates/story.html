@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,9 @@
     <link rel="stylesheet" href="/css/index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=Syne:wght@700;800&display=swap"
+        rel="stylesheet">
     <style>
         body {
             background: var(--bg-darker);
@@ -53,7 +56,7 @@
         .story-card:hover {
             transform: translateY(-15px);
             border-color: var(--primary-light);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
         }
 
         .story-img {
@@ -145,11 +148,16 @@
         }
     </style>
 </head>
+
 <body>
     <div class="story-header animate-fade-in-up">
-        <div class="logo" onclick="window.location.href='/'" style="cursor:pointer; margin-bottom: 2rem; font-size: 1.8rem; font-weight: 900;">QUIZ<span style="color: var(--primary);">ARENA</span> <span style="font-weight: 300; opacity: 0.5;">STORY</span></div>
+        <div class="logo" onclick="window.location.href='/'"
+            style="cursor:pointer; margin-bottom: 2rem; font-size: 1.8rem; font-weight: 900;">QUIZ<span
+                style="color: var(--primary);">ARENA</span> <span style="font-weight: 300; opacity: 0.5;">STORY</span>
+        </div>
         <h1 class="story-title">Butterfly Effect</h1>
-        <p style="opacity: 0.7; font-size: 1.2rem; max-width: 700px; margin: 0 auto;">Mỗi quyết định của bạn sẽ tạo nên một dòng đời mới. Bạn đã sẵn sàng viết nên câu chuyện của chính mình?</p>
+        <p style="opacity: 0.7; font-size: 1.2rem; max-width: 700px; margin: 0 auto;">Mỗi quyết định của bạn sẽ tạo nên
+            một dòng đời mới. Bạn đã sẵn sàng viết nên câu chuyện của chính mình?</p>
     </div>
 
     <div class="story-grid">
@@ -157,9 +165,11 @@
         <div class="story-card animate-fade-in-up" onclick="startStory('detective')" style="animation-delay: 0.1s;">
             <img src="https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=800&q=80" class="story-img">
             <div class="story-card-body">
-                <span style="color: var(--accent); font-weight: 800; font-size: 0.8rem; text-transform: uppercase;">Mystery</span>
+                <span
+                    style="color: var(--accent); font-weight: 800; font-size: 0.8rem; text-transform: uppercase;">Mystery</span>
                 <h3 style="color: white; font-size: 1.8rem; margin: 0.5rem 0 1rem;">Vụ án Ravenwood</h3>
-                <p style="color: var(--text-light); font-size: 0.95rem;">Hung thủ là kẻ bạn ít ngờ tới nhất. Hãy thu thập bằng chứng và phá giải vụ án mạng này.</p>
+                <p style="color: var(--text-light); font-size: 0.95rem;">Hung thủ là kẻ bạn ít ngờ tới nhất. Hãy thu
+                    thập bằng chứng và phá giải vụ án mạng này.</p>
                 <button class="btn-play-story">BẮT ĐẦU ĐIỀU TRA </button>
             </div>
         </div>
@@ -168,10 +178,13 @@
         <div class="story-card animate-fade-in-up" onclick="startStory('zombie')" style="animation-delay: 0.2s;">
             <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800&q=80" class="story-img">
             <div class="story-card-body">
-                <span style="color: #fb7185; font-weight: 800; font-size: 0.8rem; text-transform: uppercase;">Survival</span>
+                <span
+                    style="color: #fb7185; font-weight: 800; font-size: 0.8rem; text-transform: uppercase;">Survival</span>
                 <h3 style="color: white; font-size: 1.8rem; margin: 0.5rem 0 1rem;">7 Ngày Sinh Tồn</h3>
-                <p style="color: var(--text-light); font-size: 0.95rem;">Đại dịch Z bùng phát. Bạn sẽ làm gì khi chỉ còn một mình trong căn phòng đây?</p>
-                <button class="btn-play-story" style="background: linear-gradient(to right, #fb7185, #e11d48);">CHỐNG LẠI ĐẠI DỊCH </button>
+                <p style="color: var(--text-light); font-size: 0.95rem;">Đại dịch Z bùng phát. Bạn sẽ làm gì khi chỉ còn
+                    một mình trong căn phòng đây?</p>
+                <button class="btn-play-story" style="background: linear-gradient(to right, #fb7185, #e11d48);">CHỐNG
+                    LẠI ĐẠI DỊCH </button>
             </div>
         </div>
 
@@ -179,28 +192,170 @@
         <div class="story-card animate-fade-in-up" onclick="startStory('cyberpunk')" style="animation-delay: 0.3s;">
             <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&q=80" class="story-img">
             <div class="story-card-body">
-                <span style="color: #22d3ee; font-weight: 800; font-size: 0.8rem; text-transform: uppercase;">Sci-Fi</span>
+                <span
+                    style="color: #22d3ee; font-weight: 800; font-size: 0.8rem; text-transform: uppercase;">Sci-Fi</span>
                 <h3 style="color: white; font-size: 1.8rem; margin: 0.5rem 0 1rem;">Neon Rebellion</h3>
-                <p style="color: var(--text-light); font-size: 0.95rem;">Năm 2077. Bạn là một Decker huyền thoại bị Arasaka truy đuổi. Hãy hack vào hệ thống.</p>
-                <button class="btn-play-story" style="background: linear-gradient(to right, #0891b2, #06b6d4);">XÂM NHẬP HỆ THỐNG </button>
+                <p style="color: var(--text-light); font-size: 0.95rem;">Năm 2077. Bạn là một Decker huyền thoại bị
+                    Arasaka truy đuổi. Hãy hack vào hệ thống.</p>
+                <button class="btn-play-story" style="background: linear-gradient(to right, #0891b2, #06b6d4);">XÂM NHẬP
+                    HỆ THỐNG </button>
             </div>
+        </div>
+        <!-- Community Stories Section -->
+        <div id="communitySection" style="max-width:1200px;margin:0 auto 3rem;padding:0 2rem;display:none;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;">
+                <div>
+                    <span
+                        style="color:#c084fc;font-weight:800;font-size:0.8rem;text-transform:uppercase;letter-spacing:2px;">
+                        Cộng đồng</span>
+                    <h2 style="color:white;font-size:2rem;font-weight:900;margin:0.3rem 0 0;">Câu chuyện của người chơi
+                    </h2>
+                </div>
+                <a href="/story-builder"
+                    style="background:linear-gradient(135deg,#c084fc,#818cf8);color:white;padding:0.8rem 1.5rem;border-radius:14px;font-weight:800;text-decoration:none;font-size:0.9rem;">
+                    Tạo ngay</a>
+            </div>
+            <div id="communityGrid"
+                style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;"></div>
         </div>
     </div>
 
     <!-- RPG Gameplay Overlay -->
-    <div id="storyOverlay" style="position: fixed; inset: 0; background: #000; z-index: 2000; display: none; opacity: 0; transition: opacity 1s ease;">
-        <div id="storyVisual" style="position: absolute; inset: 0; background-size: cover; background-position: center; transition: all 2s ease;"></div>
-        <button class="btn-exit" onclick="exitStory()" style="position: absolute; top: 2rem; right: 2rem; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); color: white; border: 1px solid rgba(255,255,255,0.1); padding: 0.8rem 1.5rem; border-radius: 50px; cursor: pointer; font-weight: 700; z-index: 100;">DỪNG CHƠI</button>
-        
-        <div style="position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%); width: 90%; max-width: 900px; z-index: 10;">
-            <div id="storyDialogue" class="glass-card" style="padding: 2.5rem; border-radius: 30px; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.1);">
-                <div id="charName" style="color: var(--primary-light); font-weight: 900; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 2px;">Hệ Thống</div>
-                <div id="dialogueText" style="font-size: 1.5rem; line-height: 1.6; margin-bottom: 2rem; font-weight: 500;">Đang khởi tạo cốt truyện...</div>
+    <div id="storyOverlay"
+        style="position: fixed; inset: 0; background: #000; z-index: 2000; display: none; opacity: 0; transition: opacity 1s ease;">
+        <div id="storyVisual"
+            style="position: absolute; inset: 0; background-size: cover; background-position: center; transition: all 2s ease;">
+        </div>
+        <button class="btn-exit" onclick="exitStory()"
+            style="position: absolute; top: 2rem; right: 2rem; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); color: white; border: 1px solid rgba(255,255,255,0.1); padding: 0.8rem 1.5rem; border-radius: 50px; cursor: pointer; font-weight: 700; z-index: 100;">DỪNG
+            CHƠI</button>
+
+        <div
+            style="position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%); width: 90%; max-width: 900px; z-index: 10;">
+            <div id="storyDialogue" class="glass-card"
+                style="padding: 2.5rem; border-radius: 30px; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.1);">
+                <div id="charName"
+                    style="color: var(--primary-light); font-weight: 900; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 2px;">
+                    Hệ Thống</div>
+                <div id="dialogueText"
+                    style="font-size: 1.5rem; line-height: 1.6; margin-bottom: 2rem; font-weight: 500;">Đang khởi tạo
+                    cốt truyện...</div>
                 <div id="choiceGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;"></div>
             </div>
         </div>
     </div>
 
     <script src="/js/story_engine.js"></script>
+
+    <script>
+        /* ── Load community stories ── */
+        async function loadCommunityStories() {
+            try {
+                const res = await fetch('/api/stories/community');
+                const stories = await res.json();
+                if (!stories.length) return;
+
+                document.getElementById('communitySection').style.display = 'block';
+                const GENRE_COLORS = {
+                    'Mystery': '#fbbf24', 'Survival': '#fb7185', 'Sci-Fi': '#22d3ee',
+                    'Romance': '#f472b6', 'Horror': '#8b5cf6', 'Adventure': '#34d399'
+                };
+                const DEFAULT_BG = {
+                    'Mystery': 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=600&q=70',
+                    'Survival': 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&q=70',
+                    'Sci-Fi': 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&q=70',
+                    'Romance': 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=600&q=70',
+                    'Horror': 'https://images.unsplash.com/photo-1520034475321-cbe63696469a?w=600&q=70',
+                    'Adventure': 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=70',
+                };
+                document.getElementById('communityGrid').innerHTML = stories.map((s, i) => {
+                    const color = GENRE_COLORS[s.genre] || '#818cf8';
+                    const thumb = s.thumbnail || DEFAULT_BG[s.genre] || 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&q=70';
+                    return `
+                <div class="story-card animate-fade-in-up" onclick="playCommunityStory(${JSON.stringify(s).replace(/"/g, '&quot;')})" style="animation-delay:${i * 0.07}s">
+                    <img src="${thumb}" class="story-img" onerror="this.src='https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&q=70'">
+                    <div class="story-card-body">
+                        <span style="color:${color};font-weight:800;font-size:0.8rem;text-transform:uppercase;">${s.genre || 'Story'}</span>
+                        <h3 style="color:white;font-size:1.5rem;margin:0.5rem 0 0.8rem;">${s.title}</h3>
+                        <p style="color:rgba(255,255,255,0.55);font-size:0.9rem;">${s.description || ''}</p>
+                        <div style="margin-top:0.8rem;font-size:0.8rem;color:rgba(255,255,255,0.35);">✍️ ${s.authorName || 'Cộng đồng'} &nbsp;▶ ${s.plays || 0} &nbsp;♥ ${s.likes || 0}</div>
+                        <button class="btn-play-story" style="background:linear-gradient(to right,#c084fc,#818cf8);">CHƠI NGAY</button>
+                    </div>
+                </div>`;
+                }).join('');
+            } catch (e) { console.log('No community stories'); }
+        }
+
+        /* Community story player using the existing overlay */
+        let _commStory = null, _commNodeId = null;
+
+        function playCommunityStory(story) {
+            if (!story.nodes || !story.nodes.length) { alert('Câu chuyện chưa có nội dung!'); return; }
+            fetch('/api/stories/community/' + story.id + '/play', { method: 'POST' });
+            _commStory = story;
+            _commNodeId = story.nodes[0].id;
+            const overlay = document.getElementById('storyOverlay');
+            overlay.style.display = 'block';
+            setTimeout(() => overlay.style.opacity = '1', 10);
+            renderCommNode(story.nodes[0]);
+        }
+
+        function renderCommNode(node) {
+            if (!node) { exitStory(); return; }
+            const visual = document.getElementById('storyVisual');
+            const DEFAULT_BG = {
+                'Mystery': 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=800&q=80',
+                'Sci-Fi': 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&q=80',
+            };
+            const bg = node.backgroundImage || (_commStory && _commStory.thumbnail) || DEFAULT_BG[_commStory && _commStory.genre] || '';
+            if (bg) visual.style.backgroundImage = 'url(' + bg + ')';
+
+            document.getElementById('charName').textContent = node.charName || 'Người kể';
+
+            // Typewriter
+            const el = document.getElementById('dialogueText');
+            el.textContent = '';
+            let i = 0, txt = node.dialogue || '...';
+            const timer = setInterval(() => { el.textContent += txt[i++]; if (i >= txt.length) clearInterval(timer); }, 22);
+
+            const grid = document.getElementById('choiceGrid');
+            const isEnd = node.ending === true || node.isEnding === true;
+            if (isEnd) {
+                const type = node.endingType || 'neutral';
+                const emoji = type === 'good' ? '🏆' : type === 'bad' ? '💀' : '🌙';
+                grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:1rem 0">
+                <div style="font-size:3rem;margin-bottom:1rem">${emoji}</div>
+                <button onclick="playCommunityStory(_commStory)" style="background:linear-gradient(135deg,#c084fc,#818cf8);color:white;border:none;padding:0.9rem 2rem;border-radius:14px;font-weight:800;cursor:pointer">🔄 Chơi lại</button>
+            </div>`;
+                return;
+            }
+            const letters = ['A', 'B', 'C', 'D'];
+            const choices = node.choices || [];
+            grid.innerHTML = choices.map((c, i) => `
+            <button class="choice-btn" onclick="commChoose('${c.nextNodeId}')">
+                <span>${letters[i] || i + 1}</span>${c.text}
+            </button>`).join('');
+            grid.style.gridTemplateColumns = choices.length > 2 ? '1fr 1fr' : '1fr';
+        }
+
+        function commChoose(nextId) {
+            if (!nextId || !_commStory) { exitStory(); return; }
+            const next = _commStory.nodes.find(n => n.id === nextId);
+            const box = document.getElementById('storyDialogue');
+            box.style.opacity = '0';
+            setTimeout(() => { renderCommNode(next); box.style.transition = 'opacity 0.4s'; box.style.opacity = '1'; }, 300);
+        }
+
+        // Override original exitStory to also reset community state
+        const _origExit = typeof exitStory === 'function' ? exitStory : null;
+        function exitStory() {
+            const overlay = document.getElementById('storyOverlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => { overlay.style.display = 'none'; _commStory = null; }, 1000);
+        }
+
+        loadCommunityStories();
+    </script>
 </body>
+
 </html>

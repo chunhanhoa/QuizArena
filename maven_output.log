@@ -1,0 +1,77 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------------< com.hutech:quiz >---------------------------
+[INFO] Building quiz 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.1:run (default-cli) > test-compile @ quiz >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ quiz ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 35 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ quiz ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ quiz ---
+[INFO] skip non existing resourceDirectory E:\QuizArena\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ quiz ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] <<< spring-boot:4.0.1:run (default-cli) < test-compile @ quiz <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.1:run (default-cli) @ quiz ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.1)
+
+2026-03-15T10:16:36.000+07:00  INFO 22308 --- [quiz] [           main] com.hutech.quiz.QuizApplication          : Starting QuizApplication using Java 25.0.2 with PID 22308 (E:\QuizArena\target\classes started by ADMIN in E:\QuizArena)
+2026-03-15T10:16:36.003+07:00  INFO 22308 --- [quiz] [           main] com.hutech.quiz.QuizApplication          : No active profile set, falling back to 1 default profile: "default"
+2026-03-15T10:16:36.520+07:00  INFO 22308 --- [quiz] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2026-03-15T10:16:36.566+07:00  INFO 22308 --- [quiz] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 42 ms. Found 3 MongoDB repository interfaces.
+2026-03-15T10:16:36.845+07:00  INFO 22308 --- [quiz] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-03-15T10:16:36.854+07:00  INFO 22308 --- [quiz] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-15T10:16:36.854+07:00  INFO 22308 --- [quiz] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.15]
+2026-03-15T10:16:36.896+07:00  INFO 22308 --- [quiz] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 856 ms
+2026-03-15T10:16:37.161+07:00  INFO 22308 --- [quiz] [           main] org.mongodb.driver.client                : MongoClient with metadata {"driver": {"name": "mongo-java-driver|spring-boot|sync", "version": "5.6.2"}, "os": {"type": "Windows", "name": "Windows 11", "architecture": "amd64", "version": "10.0"}, "platform": "Java/Oracle Corporation/25.0.2+10-LTS-69"} created with settings MongoClientSettings{readPreference=primary, writeConcern=WriteConcern{w=majority, wTimeout=null ms, journal=null}, retryWrites=true, retryReads=true, readConcern=ReadConcern{level=null}, credential=MongoCredential{mechanism=null, userName='admin', source='admin', password=<hidden>, mechanismProperties=<hidden>}, transportSettings=null, commandListeners=[], codecRegistry=ProvidersCodecRegistry{codecProviders=[ValueCodecProvider{}, BsonValueCodecProvider{}, DBRefCodecProvider{}, DBObjectCodecProvider{}, DocumentCodecProvider{}, CollectionCodecProvider{}, IterableCodecProvider{}, MapCodecProvider{}, GeoJsonCodecProvider{}, GridFSFileCodecProvider{}, Jsr310CodecProvider{}, JsonObjectCodecProvider{}, BsonCodecProvider{}, com.mongodb.client.model.mql.ExpressionCodecProvider@73e4bb60, com.mongodb.Jep395RecordCodecProvider@9a9aa68, com.mongodb.KotlinCodecProvider@3a3883c4, EnumCodecProvider{}]}, loggerSettings=LoggerSettings{maxDocumentLength=1000}, clusterSettings={hosts=[127.0.0.1:27017], srvHost=cluster0.4n6ptyb.mongodb.net, srvServiceName=mongodb, mode=MULTIPLE, requiredClusterType=REPLICA_SET, requiredReplicaSetName='atlas-mjc03j-shard-0', serverSelector='null', clusterListeners='[]', serverSelectionTimeout='30000 ms', localThreshold='15 ms'}, socketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=0, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, heartbeatSocketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=10000, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, connectionPoolSettings=ConnectionPoolSettings{maxSize=100, minSize=0, maxWaitTimeMS=120000, maxConnectionLifeTimeMS=0, maxConnectionIdleTimeMS=0, maintenanceInitialDelayMS=0, maintenanceFrequencyMS=60000, connectionPoolListeners=[], maxConnecting=2}, serverSettings=ServerSettings{heartbeatFrequencyMS=10000, minHeartbeatFrequencyMS=500, serverMonitoringMode=AUTO, serverListeners='[]', serverMonitorListeners='[]'}, sslSettings=SslSettings{enabled=true, invalidHostNameAllowed=false, context=null}, applicationName='null', compressorList=[], uuidRepresentation=UNSPECIFIED, serverApi=null, autoEncryptionSettings=null, dnsClient=null, inetAddressResolver=null, contextProvider=null, timeoutMS=null}
+2026-03-15T10:16:37.192+07:00  INFO 22308 --- [quiz] [tyb.mongodb.net] org.mongodb.driver.cluster               : Adding discovered server ac-8bi4yon-shard-00-02.4n6ptyb.mongodb.net:27017 to client view of cluster
+2026-03-15T10:16:37.207+07:00  INFO 22308 --- [quiz] [tyb.mongodb.net] org.mongodb.driver.cluster               : Adding discovered server ac-8bi4yon-shard-00-00.4n6ptyb.mongodb.net:27017 to client view of cluster
+2026-03-15T10:16:37.208+07:00  INFO 22308 --- [quiz] [tyb.mongodb.net] org.mongodb.driver.cluster               : Adding discovered server ac-8bi4yon-shard-00-01.4n6ptyb.mongodb.net:27017 to client view of cluster
+2026-03-15T10:16:37.487+07:00  WARN 22308 --- [quiz] [           main] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: e1d774ee-f8bd-4beb-a8ee-3767c0e5bda5
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-03-15T10:16:37.492+07:00  INFO 22308 --- [quiz] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-03-15T10:16:37.598+07:00  INFO 22308 --- [quiz] [           main] o.s.v.b.OptionalValidatorFactoryBean     : Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2026-03-15T10:16:37.638+07:00  INFO 22308 --- [quiz] [           main] o.s.b.w.a.WelcomePageHandlerMapping      : Adding welcome page template: index
+2026-03-15T10:16:37.809+07:00  INFO 22308 --- [quiz] [           main] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2026-03-15T10:16:37.810+07:00  INFO 22308 --- [quiz] [           main] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@679f59f1]]
+2026-03-15T10:16:37.810+07:00  INFO 22308 --- [quiz] [           main] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2026-03-15T10:16:37.816+07:00  INFO 22308 --- [quiz] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-03-15T10:16:37.821+07:00  INFO 22308 --- [quiz] [           main] com.hutech.quiz.QuizApplication          : Started QuizApplication in 2.104 seconds (process running for 2.395)
+2026-03-15T10:16:38.046+07:00  INFO 22308 --- [quiz] [ngodb.net:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=ac-8bi4yon-shard-00-01.4n6ptyb.mongodb.net:27017, type=REPLICA_SET_PRIMARY, cryptd=false, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=25, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=440133000, minRoundTripTimeNanos=0, setName='atlas-mjc03j-shard-0', canonicalAddress=ac-8bi4yon-shard-00-01.4n6ptyb.mongodb.net:27017, hosts=[ac-8bi4yon-shard-00-02.4n6ptyb.mongodb.net:27017, ac-8bi4yon-shard-00-00.4n6ptyb.mongodb.net:27017, ac-8bi4yon-shard-00-01.4n6ptyb.mongodb.net:27017], passives=[], arbiters=[], primary='ac-8bi4yon-shard-00-01.4n6ptyb.mongodb.net:27017', tagSet=TagSet{[Tag{name='availabilityZone', value='ape1-az2'}, Tag{name='diskState', value='READY'}, Tag{name='nodeType', value='ELECTABLE'}, Tag{name='provider', value='AWS'}, Tag{name='region', value='AP_EAST_1'}, Tag{name='workloadType', value='OPERATIONAL'}]}, electionId=7fffffff000000000000015c, setVersion=296, topologyVersion=TopologyVersion{processId=69b40b86a727d829ae336d85, counter=6}, lastWriteDate=Sun Mar 15 10:16:37 GMT+07:00 2026, lastUpdateTimeNanos=436125996254700}
+2026-03-15T10:16:38.048+07:00  INFO 22308 --- [quiz] [ngodb.net:27017] org.mongodb.driver.cluster               : Discovered replica set primary ac-8bi4yon-shard-00-01.4n6ptyb.mongodb.net:27017 with max election id 7fffffff000000000000015c and max set version 296
+2026-03-15T10:16:38.080+07:00  INFO 22308 --- [quiz] [ngodb.net:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=ac-8bi4yon-shard-00-00.4n6ptyb.mongodb.net:27017, type=REPLICA_SET_SECONDARY, cryptd=false, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=25, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=490153400, minRoundTripTimeNanos=0, setName='atlas-mjc03j-shard-0', canonicalAddress=ac-8bi4yon-shard-00-00.4n6ptyb.mongodb.net:27017, hosts=[ac-8bi4yon-shard-00-02.4n6ptyb.mongodb.net:27017, ac-8bi4yon-shard-00-00.4n6ptyb.mongodb.net:27017, ac-8bi4yon-shard-00-01.4n6ptyb.mongodb.net:27017], passives=[], arbiters=[], primary='ac-8bi4yon-shard-00-01.4n6ptyb.mongodb.net:27017', tagSet=TagSet{[Tag{name='availabilityZone', value='ape1-az1'}, Tag{name='diskState', value='READY'}, Tag{name='nodeType', value='ELECTABLE'}, Tag{name='provider', value='AWS'}, Tag{name='region', value='AP_EAST_1'}, Tag{name='workloadType', value='OPERATIONAL'}]}, electionId=null, setVersion=296, topologyVersion=TopologyVersion{processId=69b40b57d6ab44cc3893f102, counter=4}, lastWriteDate=Sun Mar 15 10:16:37 GMT+07:00 2026, lastUpdateTimeNanos=436126036647200}
+2026-03-15T10:16:38.388+07:00  INFO 22308 --- [quiz] [ngodb.net:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=ac-8bi4yon-shard-00-02.4n6ptyb.mongodb.net:27017, type=REPLICA_SET_SECONDARY, cryptd=false, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=25, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=794950200, minRoundTripTimeNanos=0, setName='atlas-mjc03j-shard-0', canonicalAddress=ac-8bi4yon-shard-00-02.4n6ptyb.mongodb.net:27017, hosts=[ac-8bi4yon-shard-00-02.4n6ptyb.mongodb.net:27017, ac-8bi4yon-shard-00-00.4n6ptyb.mongodb.net:27017, ac-8bi4yon-shard-00-01.4n6ptyb.mongodb.net:27017], passives=[], arbiters=[], primary='ac-8bi4yon-shard-00-01.4n6ptyb.mongodb.net:27017', tagSet=TagSet{[Tag{name='availabilityZone', value='ape1-az3'}, Tag{name='diskState', value='READY'}, Tag{name='nodeType', value='ELECTABLE'}, Tag{name='provider', value='AWS'}, Tag{name='region', value='AP_EAST_1'}, Tag{name='workloadType', value='OPERATIONAL'}]}, electionId=null, setVersion=296, topologyVersion=TopologyVersion{processId=69b40bb488d251b0cd414758, counter=3}, lastWriteDate=Sun Mar 15 10:16:37 GMT+07:00 2026, lastUpdateTimeNanos=436126345303400}
+2026-03-15T10:16:50.188+07:00  INFO 22308 --- [quiz] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-15T10:16:50.188+07:00  INFO 22308 --- [quiz] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-03-15T10:16:50.189+07:00  INFO 22308 --- [quiz] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+AI Generation Attempt with key index: 0
+2026-03-15T10:17:37.810+07:00  INFO 22308 --- [quiz] [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+AI Generation Attempt with key index: 0
+AI Generation Attempt with key index: 0
+AI Generation Attempt with key index: 0
+AI Generation Attempt with key index: 0
+^CTerminate batch job (Y/N)? 

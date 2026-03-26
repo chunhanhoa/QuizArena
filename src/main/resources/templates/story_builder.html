@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xây Dựng Cốt Truyện - Quiz Arena</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { background: var(--bg-darker); color: white; font-family: 'Outfit', sans-serif; min-height: 100vh; }
+
+        /* ─── LAYOUT ─── */
+        .builder-wrap {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem;
+            padding-top: 7rem;
+        }
+        .builder-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .builder-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            background: linear-gradient(to right, #c084fc, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header-actions { display: flex; gap: 0.8rem; }
+
+        /* ─── BUTTONS ─── */
+        .btn { padding: 0.8rem 1.6rem; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 0.95rem; border: none; transition: all 0.25s ease; }
+        .btn-purple { background: linear-gradient(135deg, #c084fc, #818cf8); color: white; }
+        .btn-purple:hover { opacity: 0.85; transform: translateY(-2px); }
+        .btn-green { background: linear-gradient(135deg, #34d399, #059669); color: white; }
+        .btn-green:hover { opacity: 0.85; transform: translateY(-2px); }
+        .btn-ghost { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.8); }
+        .btn-ghost:hover { background: rgba(255,255,255,0.1); }
+        .btn-danger { background: rgba(251,113,133,0.15); border: 1px solid rgba(251,113,133,0.3); color: #fb7185; }
+        .btn-danger:hover { background: rgba(251,113,133,0.25); }
+        .btn-sm { padding: 0.5rem 1rem; font-size: 0.85rem; }
+
+        /* ─── SPLIT VIEW ─── */
+        .builder-body {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        @media(max-width:900px){ .builder-body { grid-template-columns: 1fr; } }
+
+        /* ─── PANEL SHARED ─── */
+        .panel {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+        .panel-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 1.5rem;
+        }
+
+        /* ─── LEFT: META PANEL ─── */
+        .form-group { margin-bottom: 1.5rem; }
+        .form-label { display: block; font-size: 0.85rem; font-weight: 700; color: rgba(255,255,255,0.5); margin-bottom: 0.5rem; }
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-family: 'Outfit', sans-serif;
+            outline: none;
+            transition: border-color 0.25s;
+            box-sizing: border-box;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: #c084fc; }
+        .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,0.25); }
+        .form-select option { background: #1e1b4b; color: white; }
+        .form-textarea { resize: vertical; min-height: 90px; }
+
+        /* ─── NODE LIST ─── */
+        .node-list { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 1.5rem; }
+        .node-item {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 1rem 1.2rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .node-item:hover, .node-item.active {
+            border-color: #c084fc;
+            background: rgba(192,132,252,0.1);
+        }
+        .node-id-badge {
+            background: linear-gradient(135deg, #c084fc, #818cf8);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 900;
+            padding: 0.25rem 0.6rem;
+            border-radius: 50px;
+            white-space: nowrap;
+        }
+        .node-preview { font-size: 0.85rem; color: rgba(255,255,255,0.5); flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+        .node-ending-tag {
+            font-size: 0.7rem; font-weight: 700;
+            padding: 0.2rem 0.6rem; border-radius: 50px;
+            background: rgba(251,113,133,0.2); color: #fb7185;
+        }
+
+        /* ─── RIGHT: NODE EDITOR ─── */
+        .editor-panel { position: sticky; top: 8rem; }
+        .choice-row {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 1.2rem;
+            margin-bottom: 0.8rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 0.7rem;
+            align-items: center;
+        }
+        .choice-num {
+            grid-column: 1/-1;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: rgba(255,255,255,0.35);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.2rem;
+        }
+
+        /* ─── PREVIEW SIDEBAR ─── */
+        .preview-node {
+            background: rgba(15,23,42,0.8);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .preview-char { color: #c084fc; font-weight: 900; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.8rem; }
+        .preview-dialogue { font-size: 1rem; line-height: 1.6; color: rgba(255,255,255,0.85); }
+        .preview-choice {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 0.7rem 1rem;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* ─── TOAST ─── */
+        .toast {
+            position: fixed; bottom: 2rem; right: 2rem;
+            background: rgba(30,27,75,0.95); backdrop-filter: blur(20px);
+            border: 1px solid rgba(192,132,252,0.3);
+            color: white; padding: 1rem 1.5rem;
+            border-radius: 14px; font-weight: 600;
+            transform: translateY(100px); opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+            z-index: 9999; max-width: 360px;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+
+        /* ─── NAVBAR ─── */
+        .builder-nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: rgba(15,23,42,0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            padding: 1rem 2rem;
+            display: flex; align-items: center; gap: 1.5rem;
+            z-index: 1000;
+        }
+        .nav-logo { font-weight: 900; font-size: 1.2rem; cursor: pointer; }
+        .nav-breadcrumb { font-size: 0.9rem; color: rgba(255,255,255,0.4); }
+
+        /* ─── CHECKBOX ─── */
+        .toggle-row { display: flex; align-items: center; gap: 1rem; }
+        .toggle-label { font-size: 0.9rem; color: rgba(255,255,255,0.6); }
+        input[type=checkbox] { width: 18px; height: 18px; accent-color: #c084fc; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="builder-nav">
+    <div class="nav-logo" onclick="window.location.href='/'">QUIZ<span style="color:var(--primary);">ARENA</span></div>
+    <div class="nav-breadcrumb">/ <a href="/community-stories" style="color:rgba(255,255,255,0.5);text-decoration:none;">Cộng đồng</a> / Tạo câu chuyện</div>
+    <div style="margin-left:auto; display:flex; gap:0.8rem;">
+        <button class="btn btn-ghost btn-sm" onclick="saveDraft()">💾 Lưu nháp</button>
+        <button class="btn btn-green btn-sm" onclick="publishStory()">🚀 Xuất bản</button>
+    </div>
+</nav>
+
+<div class="builder-wrap">
+    <div class="builder-header">
+        <div>
+            <div class="builder-title">✍️ Xây Dựng Cốt Truyện</div>
+            <div style="color:rgba(255,255,255,0.4); font-size:0.9rem; margin-top:0.3rem;">Tạo từng node đối thoại và kết nối chúng thành một câu chuyện hoàn chỉnh</div>
+        </div>
+        <div class="header-actions">
+            <button class="btn btn-ghost" onclick="previewStory()">👁 Xem trước</button>
+            <button class="btn btn-purple" onclick="addNode()">＋ Thêm Node</button>
+        </div>
+    </div>
+
+    <div class="builder-body">
+
+        <!-- LEFT: STORY META + NODE LIST -->
+        <div>
+            <!-- Story Info -->
+            <div class="panel" style="margin-bottom:1.5rem;">
+                <div class="panel-title">📖 Thông tin câu chuyện</div>
+                <div class="form-group">
+                    <label class="form-label">Tiêu đề *</label>
+                    <input class="form-input" id="storyTitle" placeholder="Tên câu chuyện của bạn...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mô tả ngắn</label>
+                    <textarea class="form-textarea" id="storyDesc" placeholder="Mô tả ngắn về câu chuyện..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Thể loại</label>
+                    <select class="form-select" id="storyGenre">
+                        <option value="Mystery">🔍 Mystery</option>
+                        <option value="Survival">🧟 Survival</option>
+                        <option value="Sci-Fi">🚀 Sci-Fi</option>
+                        <option value="Romance">💖 Romance</option>
+                        <option value="Horror">👻 Horror</option>
+                        <option value="Adventure">⚔️ Adventure</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Ảnh bìa (chọn từ máy)</label>
+                    <input type="file" accept="image/*" class="form-input" id="storyThumbnailFile" style="padding:0.5rem;cursor:pointer;" onchange="readFileAsBase64(this, 'storyThumbnail')">
+                    <input type="hidden" id="storyThumbnail">
+                    <div id="thumbPreview" style="margin-top:0.6rem;display:none;"><img id="thumbImg" style="width:100%;height:120px;object-fit:cover;border-radius:10px;" src=""></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tên tác giả / Biệt danh *</label>
+                    <input class="form-input" id="authorName" placeholder="Tên hiển thị của bạn...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">ID tác giả (username/email)</label>
+                    <input class="form-input" id="authorId" placeholder="Dùng để quản lý câu chuyện của bạn">
+                </div>
+            </div>
+
+            <!-- Node List -->
+            <div class="panel">
+                <div class="panel-title">🗂 Danh sách Nodes (<span id="nodeCount">0</span>)</div>
+                <p style="font-size:0.85rem; color:rgba(255,255,255,0.3); margin-bottom:1rem;">Node đầu tiên là điểm bắt đầu câu chuyện. Click để chỉnh sửa.</p>
+                <div class="node-list" id="nodeList">
+                    <div style="text-align:center; padding:2rem; color:rgba(255,255,255,0.2); font-size:0.9rem;">Chưa có node nào. Nhấn "Thêm Node" để bắt đầu.</div>
+                </div>
+                <button class="btn btn-ghost" style="width:100%; margin-top:1rem;" onclick="addNode()">＋ Thêm Node mới</button>
+            </div>
+        </div>
+
+        <!-- RIGHT: NODE EDITOR -->
+        <div class="editor-panel">
+            <div class="panel" id="editorPanel">
+                <div class="panel-title">✏️ Chỉnh sửa Node</div>
+                <div id="noNodeMsg" style="text-align:center; padding:3rem 0; color:rgba(255,255,255,0.25);">
+                    <div style="font-size:3rem; margin-bottom:1rem;">📝</div>
+                    Chọn một node để chỉnh sửa hoặc thêm node mới
+                </div>
+                <div id="nodeEditor" style="display:none;">
+                    <div style="display:flex; gap:0.8rem; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap;">
+                        <div class="node-id-badge" id="editingNodeBadge">node_1</div>
+                        <span style="color:rgba(255,255,255,0.35); font-size:0.85rem;">Đang chỉnh sửa node này</span>
+                        <button class="btn btn-danger btn-sm" style="margin-left:auto;" onclick="deleteCurrentNode()">🗑 Xoá node</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Nhân vật / Người nói</label>
+                        <input class="form-input" id="editCharName" placeholder="Tên nhân vật hoặc 'Người kể chuyện'...">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Lời thoại / Nội dung *</label>
+                        <textarea class="form-textarea" id="editDialogue" rows="4" placeholder="Nhập nội dung đối thoại hoặc mô tả cảnh..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Hình nền (chọn từ máy)</label>
+                        <input type="file" accept="image/*" class="form-input" id="editBgImageFile" style="padding:0.5rem;cursor:pointer;" onchange="readFileAsBase64(this, 'editBgImage')">
+                        <input type="hidden" id="editBgImage">
+                        <div id="bgPreview" style="margin-top:0.6rem;display:none;"><img id="bgImg" style="width:100%;height:100px;object-fit:cover;border-radius:10px;" src=""></div>
+                    </div>
+
+                    <!-- Ending toggle -->
+                    <div class="form-group">
+                        <div class="toggle-row">
+                            <input type="checkbox" id="editIsEnding" onchange="toggleEnding(this.checked)">
+                            <label class="toggle-label" for="editIsEnding">Đây là node kết thúc (Ending)</label>
+                        </div>
+                    </div>
+                    <div id="endingTypeRow" style="display:none;" class="form-group">
+                        <label class="form-label">Loại kết thúc</label>
+                        <select class="form-select" id="editEndingType">
+                            <option value="good">🏆 Kết thúc tốt đẹp</option>
+                            <option value="bad">💀 Kết thúc bi thảm</option>
+                            <option value="neutral">🌙 Kết thúc bí ẩn</option>
+                        </select>
+                    </div>
+
+                    <!-- Choices -->
+                    <div id="choicesSection">
+                        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem;">
+                            <div class="panel-title" style="margin:0;">🔀 Lựa chọn (tối đa 4)</div>
+                            <button class="btn btn-ghost btn-sm" onclick="addChoice()">＋ Thêm lựa chọn</button>
+                        </div>
+                        <div id="choicesList"></div>
+                    </div>
+
+                    <!-- Live preview -->
+                    <div class="preview-node" id="livePreview">
+                        <div class="preview-char" id="previewChar">NHÂN VẬT</div>
+                        <div class="preview-dialogue" id="previewDialogue">Nội dung thoại sẽ hiện ở đây...</div>
+                        <div id="previewChoices"></div>
+                    </div>
+
+                    <div style="display:flex; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="btn btn-purple" style="flex:1;" onclick="saveCurrentNode()">✅ Lưu Node</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+    /* ── STATE ── */
+    let nodes = [];
+    let currentNodeIndex = -1;
+    let savedStoryId = null;
+
+    /* ── NODE MANAGEMENT ── */
+    function genNodeId() {
+        return 'node_' + (nodes.length + 1) + '_' + Date.now().toString(36).slice(-4);
+    }
+
+    function addNode() {
+        const node = {
+            id: genNodeId(),
+            charName: '',
+            dialogue: '',
+            backgroundImage: '',
+            isEnding: false,
+            endingType: 'neutral',
+            choices: []
+        };
+        nodes.push(node);
+        renderNodeList();
+        editNode(nodes.length - 1);
+        showToast('✅ Đã thêm node mới');
+    }
+
+    function renderNodeList() {
+        document.getElementById('nodeCount').textContent = nodes.length;
+        const list = document.getElementById('nodeList');
+        if (!nodes.length) {
+            list.innerHTML = '<div style="text-align:center;padding:2rem;color:rgba(255,255,255,0.2);font-size:0.9rem;">Chưa có node nào.</div>';
+            return;
+        }
+        list.innerHTML = nodes.map((n, i) => `
+            <div class="node-item ${i === currentNodeIndex ? 'active' : ''}" onclick="editNode(${i})">
+                <div class="node-id-badge">${i === 0 ? '▶ START' : n.id.split('_')[1]}</div>
+                <div class="node-preview">${n.dialogue || '(chưa có nội dung)'}</div>
+                ${n.isEnding ? '<span class="node-ending-tag">END</span>' : ''}
+            </div>`).join('');
+    }
+
+    function editNode(index) {
+        // Save previous node first
+        if (currentNodeIndex >= 0 && currentNodeIndex < nodes.length) {
+            collectCurrentNode();
+        }
+        currentNodeIndex = index;
+        const node = nodes[index];
+        document.getElementById('noNodeMsg').style.display = 'none';
+        document.getElementById('nodeEditor').style.display = 'block';
+        document.getElementById('editingNodeBadge').textContent = index === 0 ? '▶ START' : node.id;
+        document.getElementById('editCharName').value = node.charName || '';
+        document.getElementById('editDialogue').value = node.dialogue || '';
+        document.getElementById('editBgImage').value = node.backgroundImage || '';
+        // Show bg preview if exists
+        const bgPreview = document.getElementById('bgPreview');
+        if (node.backgroundImage) {
+            bgPreview.style.display = 'block';
+            document.getElementById('bgImg').src = node.backgroundImage;
+        } else { bgPreview.style.display = 'none'; }
+        document.getElementById('editBgImageFile').value = '';
+        document.getElementById('editIsEnding').checked = node.isEnding || false;
+        document.getElementById('editEndingType').value = node.endingType || 'neutral';
+        toggleEnding(node.isEnding);
+        renderChoices(node.choices || []);
+        updatePreview();
+        renderNodeList();
+        // Scroll editor into view on mobile
+        document.getElementById('editorPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function collectCurrentNode() {
+        if (currentNodeIndex < 0 || currentNodeIndex >= nodes.length) return;
+        const node = nodes[currentNodeIndex];
+        node.charName = document.getElementById('editCharName').value.trim();
+        node.dialogue = document.getElementById('editDialogue').value.trim();
+        node.backgroundImage = document.getElementById('editBgImage').value || '';
+        node.isEnding = document.getElementById('editIsEnding').checked;
+        node.endingType = document.getElementById('editEndingType').value;
+        // Collect choices
+        node.choices = [];
+        document.querySelectorAll('.choice-row-data').forEach(row => {
+            const text = row.querySelector('.choice-text').value.trim();
+            const next = row.querySelector('.choice-next').value.trim();
+            if (text) node.choices.push({ text, nextNodeId: next || null });
+        });
+    }
+
+    function saveCurrentNode() {
+        collectCurrentNode();
+        renderNodeList();
+        showToast('✅ Node đã được lưu!');
+    }
+
+    function deleteCurrentNode() {
+        if (currentNodeIndex < 0) return;
+        if (currentNodeIndex === 0 && nodes.length === 1) {
+            showToast('⚠️ Không thể xoá node duy nhất!'); return;
+        }
+        nodes.splice(currentNodeIndex, 1);
+        currentNodeIndex = -1;
+        document.getElementById('noNodeMsg').style.display = 'block';
+        document.getElementById('nodeEditor').style.display = 'none';
+        renderNodeList();
+        showToast('🗑 Đã xoá node');
+    }
+
+    /* ── CHOICES ── */
+    function toggleEnding(isEnding) {
+        document.getElementById('endingTypeRow').style.display = isEnding ? 'block' : 'none';
+        document.getElementById('choicesSection').style.display = isEnding ? 'none' : 'block';
+    }
+
+    function renderChoices(choices) {
+        const list = document.getElementById('choicesList');
+        const nodeIds = nodes.map(n => `<option value="${n.id}">${n.id === nodes[0]?.id ? '▶ START' : n.id}</option>`).join('');
+        list.innerHTML = choices.map((c, i) => `
+            <div class="choice-row choice-row-data">
+                <div class="choice-num" style="grid-column:1/-1;">Lựa chọn ${String.fromCharCode(65+i)}</div>
+                <input class="form-input choice-text" placeholder="Nội dung lựa chọn..." value="${c.text||''}" oninput="updatePreview()">
+                <select class="form-select choice-next">
+                    <option value="">-- Kết thúc --</option>
+                    ${nodes.map((n, ni) => ni !== currentNodeIndex
+                        ? `<option value="${n.id}" ${c.nextNodeId === n.id ? 'selected' : ''}>${ni === 0 ? '▶ START' : n.id}</option>`
+                        : ''
+                    ).join('')}
+                </select>
+                <button class="btn btn-danger btn-sm" onclick="this.closest('.choice-row').remove(); updatePreview()">✕</button>
+            </div>`).join('');
+    }
+
+    function addChoice() {
+        const n = document.querySelectorAll('.choice-row-data').length;
+        if (n >= 4) { showToast('⚠️ Tối đa 4 lựa chọn!'); return; }
+        const list = document.getElementById('choicesList');
+        const nodeIds = nodes.map((nd, ni) => ni !== currentNodeIndex
+            ? `<option value="${nd.id}">${ni === 0 ? '▶ START' : nd.id}</option>` : '').join('');
+        const div = document.createElement('div');
+        div.className = 'choice-row choice-row-data';
+        div.innerHTML = `
+            <div class="choice-num" style="grid-column:1/-1;">Lựa chọn ${String.fromCharCode(65+n)}</div>
+            <input class="form-input choice-text" placeholder="Nội dung lựa chọn..." oninput="updatePreview()">
+            <select class="form-select choice-next">
+                <option value="">-- Kết thúc --</option>
+                ${nodeIds}
+            </select>
+            <button class="btn btn-danger btn-sm" onclick="this.closest('.choice-row').remove(); updatePreview()">✕</button>`;
+        list.appendChild(div);
+    }
+
+    /* ── LIVE PREVIEW ── */
+    function updatePreview() {
+        const char = document.getElementById('editCharName').value || 'NHÂN VẬT';
+        const dialogue = document.getElementById('editDialogue').value || 'Nội dung thoại sẽ hiện ở đây...';
+        document.getElementById('previewChar').textContent = char.toUpperCase();
+        document.getElementById('previewDialogue').textContent = dialogue;
+        const choices = [];
+        document.querySelectorAll('.choice-text').forEach((inp, i) => {
+            if (inp.value.trim()) choices.push(inp.value.trim());
+        });
+        const letters = ['A','B','C','D'];
+        document.getElementById('previewChoices').innerHTML = choices.map((c, i) =>
+            `<div class="preview-choice">[${letters[i]}] ${c}</div>`).join('');
+    }
+    // Live preview bindings
+    ['editCharName','editDialogue'].forEach(id => {
+        document.getElementById(id)?.addEventListener('input', updatePreview);
+    });
+
+    /* ── SAVE / PUBLISH ── */
+    function buildStoryPayload(status) {
+        collectCurrentNode();
+        const title = document.getElementById('storyTitle').value.trim();
+        const authorName = document.getElementById('authorName').value.trim();
+        const authorId = document.getElementById('authorId').value.trim() || 'anonymous';
+        if (!title) { showToast('⚠️ Vui lòng nhập tiêu đề!'); return null; }
+        if (!authorName) { showToast('⚠️ Vui lòng nhập tên tác giả!'); return null; }
+        if (!nodes.length) { showToast('⚠️ Cần ít nhất 1 node!'); return null; }
+        return {
+            title,
+            description: document.getElementById('storyDesc').value.trim(),
+            genre: document.getElementById('storyGenre').value,
+            thumbnail: document.getElementById('storyThumbnail').value || '',
+            authorId,
+            authorName,
+            status,
+            nodes
+        };
+    }
+
+    async function saveDraft() {
+        const payload = buildStoryPayload('DRAFT');
+        if (!payload) return;
+        try {
+            let res, data;
+            if (savedStoryId) {
+                payload.authorId = payload.authorId; // keep authorId for auth check
+                res = await fetch(`/api/stories/community/${savedStoryId}`, {
+                    method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload)
+                });
+            } else {
+                res = await fetch('/api/stories/community', {
+                    method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload)
+                });
+            }
+            data = await res.json();
+            savedStoryId = data.id;
+            showToast('💾 Đã lưu nháp thành công!');
+        } catch(e) {
+            showToast('❌ Lỗi khi lưu: ' + e.message);
+        }
+    }
+
+    async function publishStory() {
+        const payload = buildStoryPayload('DRAFT');
+        if (!payload) return;
+        if (!nodes.length) { showToast('Can ít nhat 1 node!'); return; }
+        showToast('Dang luu va xuat ban...');
+        try {
+            let storyId = savedStoryId;
+            if (!storyId) {
+                const r = await fetch('/api/stories/community', {
+                    method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload)
+                });
+                if (!r.ok) { showToast('Loi khi luu!'); return; }
+                const d = await r.json();
+                storyId = d.id; savedStoryId = storyId;
+            } else {
+                await fetch('/api/stories/community/' + storyId, {
+                    method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload)
+                });
+            }
+            const authorId = document.getElementById('authorId').value.trim() || 'anonymous';
+            const pubRes = await fetch('/api/stories/community/' + storyId + '/publish?authorId=' + encodeURIComponent(authorId), { method: 'POST' });
+            if (pubRes.ok) {
+                showToast('Xuat ban thanh cong! Dang chuyen ve Story Mode...');
+                setTimeout(function() { window.location.href = '/story'; }, 1800);
+            } else {
+                showToast('Khong the xuat ban!');
+            }
+        } catch(e) {
+            showToast('Loi ket noi: ' + e.message);
+        }
+    }
+
+    function previewStory() {
+        collectCurrentNode();
+        if (!nodes.length) { showToast('⚠️ Chưa có node nào!'); return; }
+        // Encode and open a quick preview in community_stories overlay by storing in sessionStorage
+        const storyData = {
+            id: savedStoryId || '__preview__',
+            title: document.getElementById('storyTitle').value || 'Preview',
+            description: '',
+            genre: document.getElementById('storyGenre').value,
+            thumbnail: document.getElementById('storyThumbnail').value,
+            plays: 0, likes: 0, nodes
+        };
+        sessionStorage.setItem('previewStory', JSON.stringify(storyData));
+        window.open('/community-stories#preview', '_blank');
+    }
+
+    /* ── FILE UPLOAD → BASE64 ── */
+    function readFileAsBase64(input, targetId) {
+        const file = input.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById(targetId).value = e.target.result;
+            // Show preview
+            if (targetId === 'storyThumbnail') {
+                const p = document.getElementById('thumbPreview');
+                p.style.display = 'block';
+                document.getElementById('thumbImg').src = e.target.result;
+            } else if (targetId === 'editBgImage') {
+                const p = document.getElementById('bgPreview');
+                p.style.display = 'block';
+                document.getElementById('bgImg').src = e.target.result;
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    /* ── TOAST ── */
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3000);
+    }
+</script>
+</body>
+</html>

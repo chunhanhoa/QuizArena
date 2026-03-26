@@ -40,4 +40,9 @@ public class ViewController {
     public String story() {
         return "story";
     }
+
+    @GetMapping({ "/story-builder", "/story-builder.html" })
+    public String storyBuilder() {
+        return "story_builder";
+    }
 }
