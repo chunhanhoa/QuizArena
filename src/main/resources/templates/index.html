@@ -280,11 +280,11 @@
             <button id="loginBtn" class="btn-primary" onclick="window.location.href='/login'" style="padding: 0.6rem 1.5rem; font-size: 0.95rem;">
                 Đăng nhập
             </button>
-            <div id="userProfile" style="display: none; align-items: center; gap: 1rem; background: #f1f5f9; padding: 0.4rem 1rem; border-radius: 100px; border: 1px solid rgba(0,0,0,0.05);">
+            <div id="userProfile" style="display: none; align-items: center; gap: 1rem; background: #f1f5f9; padding: 0.4rem 1rem; border-radius: 100px; border: 1px solid rgba(0,0,0,0.05); cursor: pointer;" onclick="window.location.href='/profile'">
                 <img id="userAvatar" src="" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
                 <div style="text-align: left;">
                     <div id="navUsername" style="font-weight: 700; font-size: 0.85rem; color: var(--text-dark);">Username</div>
-                    <div style="font-size: 0.7rem; color: var(--danger); font-weight: 600; cursor: pointer;" onclick="logout()">Đăng xuất</div>
+                    <div style="font-size: 0.7rem; color: var(--danger); font-weight: 600; cursor: pointer;" onclick="logout(event)">Đăng xuất</div>
                 </div>
             </div>
         </div>
@@ -526,13 +526,15 @@
                 const user = JSON.parse(userStr);
                 document.getElementById('loginBtn').style.display = 'none';
                 document.getElementById('userProfile').style.display = 'flex';
-                document.getElementById('navUsername').innerText = user.username;
+                const displayName = user.profile && user.profile.displayName ? user.profile.displayName : user.username;
+                document.getElementById('navUsername').innerText = displayName;
                 const avatar = user.profile && user.profile.avatar ? user.profile.avatar : `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}`;
                 document.getElementById('userAvatar').src = avatar;
             }
         }
 
-        function logout() {
+        function logout(event) {
+            if(event) event.stopPropagation();
             localStorage.clear();
             window.location.reload();
         }

@@ -31,6 +31,7 @@ public class AuthController {
         // Initialize profile and social if null
         if (user.getProfile() == null) {
             user.setProfile(new User.Profile());
+            user.getProfile().setDisplayName(user.getUsername());
             user.getProfile().setAvatar("https://api.dicebear.com/7.x/avataaars/svg?seed=" + user.getUsername());
         }
         if (user.getSocial() == null) {

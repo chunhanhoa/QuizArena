@@ -27,9 +27,13 @@ public class User {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Profile {
+        private String displayName;
         private String avatar;
         private int level = 1;
         private int xp = 0;
+        private int firstPlaces = 0;
+        private int secondPlaces = 0;
+        private int thirdPlaces = 0;
     }
 
     @Data

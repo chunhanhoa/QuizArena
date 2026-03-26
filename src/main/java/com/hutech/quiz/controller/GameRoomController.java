@@ -2,8 +2,10 @@ package com.hutech.quiz.controller;
 
 import com.hutech.quiz.model.GameRoom;
 import com.hutech.quiz.model.Quiz;
+import com.hutech.quiz.model.User;
 import com.hutech.quiz.repository.GameRoomRepository;
 import com.hutech.quiz.repository.QuizRepository;
+import com.hutech.quiz.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class GameRoomController {
 
     private final GameRoomRepository gameRoomRepository;
     private final QuizRepository quizRepository;
+    private final UserRepository userRepository;
     private final SimpMessagingTemplate messagingTemplate;
     private final Map<String, ScheduledFuture<?>> roomTimers = new ConcurrentHashMap<>();
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(4);
@@ -115,6 +118,23 @@ public class GameRoomController {
                 } else {
                     room.setStatus("FINISHED");
                     room.setLastActiveAt(new Date());
+
+                    if (room.getPlayers() != null) {
+                        List<GameRoom.Player> playerList = new ArrayList<>(room.getPlayers());
+                        playerList.sort((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
+                        for (int i = 0; i < playerList.size() && i < 3; i++) {
+                            GameRoom.Player p = playerList.get(i);
+                            int rank = i;
+                            userRepository.findById(p.getUserId()).ifPresent(user -> {
+                                if (user.getProfile() == null) user.setProfile(new User.Profile());
+                                if (rank == 0) user.getProfile().setFirstPlaces(user.getProfile().getFirstPlaces() + 1);
+                                else if (rank == 1) user.getProfile().setSecondPlaces(user.getProfile().getSecondPlaces() + 1);
+                                else if (rank == 2) user.getProfile().setThirdPlaces(user.getProfile().getThirdPlaces() + 1);
+                                userRepository.save(user);
+                            });
+                        }
+                    }
+
                     gameRoomRepository.save(room);
                     messagingTemplate.convertAndSend("/topic/room/" + pin, room);
                     roomTimers.remove(pin);

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ sơ cá nhân - Quiz Arena</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Outfit', sans-serif; background: #fdfdfd; padding-top: 80px; }
+        
+        .profile-container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .profile-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.8);
+            border-radius: 16px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .stat-card.gold i { color: #fbbf24; }
+        .stat-card.silver i { color: #94a3b8; }
+        .stat-card.bronze i { color: #b45309; }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin: 0.5rem 0;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .hero-banner {
+            height: 120px;
+            background: var(--primary-gradient);
+            border-radius: 20px 20px 0 0;
+            position: relative;
+        }
+
+        .avatar-container {
+            position: relative;
+            margin-top: -60px;
+            text-align: center;
+        }
+
+        .avatar-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 6px solid white;
+            object-fit: cover;
+            background: white;
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.1);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 9999;
+            box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <nav class="glass-card" style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; margin: 0; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; border-radius: 0; border-top: none; border-left: none; border-right: none; background: rgba(255, 255, 255, 0.8);">
+        <div class="logo" style="cursor: pointer; font-size: 1.8rem; font-weight: 900; letter-spacing: -1.5px; color: var(--bg-dark);" onclick="window.location.href='/'">
+            QUIZ<span style="color: var(--primary);">ARENA</span>
+        </div>
+        
+        <div style="display: flex; gap: 1.5rem; align-items: center;">
+            <button class="btn-secondary" onclick="window.location.href='/'" style="padding: 0.6rem 1.5rem; font-size: 0.95rem;">
+                <i class="fas fa-home"></i> Trang chủ
+            </button>
+        </div>
+    </nav>
+
+    <div id="notification" class="notification">
+        <i class="fas fa-check-circle" style="margin-right: 8px;"></i> <span id="notifMessage">Cập nhật thành công!</span>
+    </div>
+
+    <div class="profile-container animate-fade-in-up">
+        <!-- Profile Info Card -->
+        <div class="glass-card" style="padding: 0; overflow: hidden; height: fit-content; border: 1px solid rgba(0,0,0,0.05);">
+            <div class="hero-banner"></div>
+            <div class="avatar-container">
+                <img id="displayAvatar" src="https://placehold.co/120x120?text=Avatar" class="avatar-img" alt="Avatar">
+            </div>
+            
+            <div style="padding: 1.5rem 2rem 2.5rem; text-align: center;">
+                <h2 id="displayDisplayName" style="font-size: 1.8rem; font-weight: 800; color: #1e293b; margin-bottom: 0.2rem;">Username</h2>
+                <div style="color: var(--text-muted); font-size: 0.95rem; font-weight: 600; margin-bottom: 1.5rem;">@<span id="displayUsername">username</span></div>
+                
+                <!-- Stats space reserved for future metrics if needed -->
+
+
+                <div style="text-align: left;">
+                    <h3 style="font-size: 1.1rem; font-weight: 800; color: #334155; margin-bottom: 1rem; border-bottom: 2px solid #f1f5f9; padding-bottom: 0.5rem;">Thành tích thi đấu</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card gold">
+                            <i class="fas fa-trophy fa-2x"></i>
+                            <div class="stat-value" id="statFirst">0</div>
+                            <div class="stat-label">Hạng 1</div>
+                        </div>
+                        <div class="stat-card silver">
+                            <i class="fas fa-medal fa-2x"></i>
+                            <div class="stat-value" id="statSecond">0</div>
+                            <div class="stat-label">Hạng 2</div>
+                        </div>
+                        <div class="stat-card bronze">
+                            <i class="fas fa-award fa-2x"></i>
+                            <div class="stat-value" id="statThird">0</div>
+                            <div class="stat-label">Hạng 3</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Profile Card -->
+        <div class="glass-card" style="padding: 2.5rem; height: fit-content;">
+            <h2 style="font-size: 1.6rem; font-weight: 800; color: #1e293b; margin-bottom: 2rem; display: flex; align-items: center; gap: 0.8rem;">
+                <i class="fas fa-user-edit" style="color: var(--primary);"></i> Chỉnh sửa hồ sơ
+            </h2>
+            
+            <form id="profileForm" onsubmit="updateProfile(event)">
+                <div class="form-group">
+                    <label for="inputDisplayName">Tên hiển thị</label>
+                    <input type="text" id="inputDisplayName" placeholder="Nhập tên hiển thị của bạn" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Ảnh đại diện</label>
+                    <div style="display: flex; align-items: center; gap: 1.5rem;">
+                        <img id="avatarPreview" src="https://placehold.co/80x80?text=Avatar" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #e2e8f0;">
+                        <div>
+                            <input type="file" id="inputFileAvatar" accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
+                            <button type="button" class="btn-secondary" onclick="document.getElementById('inputFileAvatar').click()" style="padding: 0.6rem 1.2rem; font-size: 0.9rem;">
+                                <i class="fas fa-camera" style="margin-right: 0.5rem;"></i> Chọn ảnh mới
+                            </button>
+                            <button type="button" id="btnRemoveAvatar" class="btn-secondary" onclick="removeAvatar()" style="padding: 0.6rem 1.2rem; font-size: 0.9rem; background: #fee2e2; color: #ef4444; border-color: #fca5a5; display: none;">
+                                Xóa
+                            </button>
+                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem; font-weight: 500;">
+                                Hỗ trợ JPG, PNG, GIF. Tối đa 2MB (sẽ tự động nén).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2.5rem; display: flex; justify-content: flex-end;">
+                    <button type="submit" class="btn-primary" id="btnSubmit" style="padding: 1rem 2.5rem; font-size: 1rem; cursor: pointer;">
+                        <i class="fas fa-save" style="margin-right: 0.5rem;"></i> Lưu thay đổi
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let selectedAvatarBase64 = "";
+
+        async function checkAuth() {
+            const userStr = localStorage.getItem('user');
+            if (!userStr) {
+                window.location.href = '/login';
+                return;
+            }
+            currentUser = JSON.parse(userStr);
+            
+            // Render from cache first for fast load
+            renderProfile();
+
+            // Fetch fresh data from server
+            try {
+                const userId = localStorage.getItem('userId') || currentUser.id;
+                const res = await fetch(`/api/users/${userId}`);
+                if (res.ok) {
+                    const freshUser = await res.json();
+                    localStorage.setItem('user', JSON.stringify(freshUser));
+                    currentUser = freshUser;
+                    renderProfile();
+                }
+            } catch(e) {
+                console.error('Lỗi khi cập nhật dữ liệu mới:', e);
+            }
+        }
+
+        function renderProfile() {
+            if (!currentUser) return;
+            
+            const profile = currentUser.profile || {};
+            const displayName = profile.displayName || currentUser.username;
+            const avatar = profile.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${currentUser.username}`;
+            
+            // Populate Display
+            document.getElementById('displayDisplayName').innerText = displayName;
+            document.getElementById('displayUsername').innerText = currentUser.username;
+            document.getElementById('displayAvatar').src = avatar;
+            
+            // Removed Level and XP population
+            
+            document.getElementById('statFirst').innerText = profile.firstPlaces || 0;
+            document.getElementById('statSecond').innerText = profile.secondPlaces || 0;
+            document.getElementById('statThird').innerText = profile.thirdPlaces || 0;
+
+            // Populate Form
+            document.getElementById('inputDisplayName').value = displayName;
+            
+            selectedAvatarBase64 = avatar;
+            document.getElementById('avatarPreview').src = avatar;
+            
+            if(avatar && !avatar.includes('api.dicebear.com')) {
+                document.getElementById('btnRemoveAvatar').style.display = 'inline-block';
+            } else {
+                document.getElementById('btnRemoveAvatar').style.display = 'none';
+            }
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.size > 2 * 1024 * 1024) {
+                showNotification('Kích thước ảnh không được vượt quá 2MB', true);
+                event.target.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 300;
+                    const MAX_HEIGHT = 300;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    selectedAvatarBase64 = canvas.toDataURL(file.type || 'image/jpeg', 0.8);
+                    document.getElementById('avatarPreview').src = selectedAvatarBase64;
+                    document.getElementById('btnRemoveAvatar').style.display = 'inline-block';
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeAvatar() {
+            selectedAvatarBase64 = `https://api.dicebear.com/7.x/avataaars/svg?seed=${currentUser.username}`;
+            document.getElementById('avatarPreview').src = selectedAvatarBase64;
+            document.getElementById('inputFileAvatar').value = '';
+            document.getElementById('btnRemoveAvatar').style.display = 'none';
+        }
+
+        function showNotification(msg, isError = false) {
+            const notif = document.getElementById('notification');
+            const msgEl = document.getElementById('notifMessage');
+            const icon = notif.querySelector('i');
+            
+            msgEl.innerText = msg;
+            if (isError) {
+                notif.style.background = '#ef4444';
+                icon.className = 'fas fa-exclamation-circle';
+            } else {
+                notif.style.background = '#10b981';
+                icon.className = 'fas fa-check-circle';
+            }
+
+            notif.classList.add('show');
+            setTimeout(() => {
+                notif.classList.remove('show');
+            }, 3000);
+        }
+
+        async function updateProfile(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnSubmit');
+            const originalText = btn.innerHTML;
+            
+            try {
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang tải...';
+                btn.disabled = true;
+
+                const displayName = document.getElementById('inputDisplayName').value;
+                const avatar = selectedAvatarBase64;
+
+                const userId = localStorage.getItem('userId');
+
+                const res = await fetch(`/api/users/${userId}/profile`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ displayName, avatar })
+                });
+
+                if (res.ok) {
+                    const updatedUser = await res.json();
+                    localStorage.setItem('user', JSON.stringify(updatedUser)); // Update cache
+                    currentUser = updatedUser;
+                    renderProfile();
+                    showNotification('Cập nhật hồ sơ thành công!');
+                } else {
+                    showNotification('Có lỗi xảy ra khi cập nhật!', true);
+                }
+            } catch (error) {
+                console.error('Update error:', error);
+                showNotification('Lỗi kết nối máy chủ!', true);
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', checkAuth);
+    </script>
+</body>
+</html>
